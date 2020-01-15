@@ -22,5 +22,14 @@ github-repo: simoncarrignon/bg4ss
 description: "First draft of Rbookdown for UT class big data for social scientists"
 ---
 
-#  Preface
+```{r setup, include=FALSE}
+library(magrittr)
+```
+
+```{r write-bib, include=FALSE}
+knitr::write_bib(c(.packages(), 'bookdown'), 'packages.bib')
+```
+
+# Preface{-}
 This book will guide you toward the class "BG4SS"
+
