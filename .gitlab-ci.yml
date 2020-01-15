@@ -7,5 +7,5 @@ stages:
 check_pkg:
     stage: check
     script:
-        - R -e 'install.packages(c())'
-        - R _build.sh
+        - R -e 'install.packages(c("bookdown"))'
+        - bash t _build.sh
