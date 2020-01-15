@@ -5,12 +5,13 @@
 Set up your directory
 
 ```{r}
-
+setwd("")
 ```
 
 
 Install and load `tidyverse`
-```{r}
+
+```{r echo = FALSE}
 install.packages("tidyverse")
 library(tidyverse)
 ```

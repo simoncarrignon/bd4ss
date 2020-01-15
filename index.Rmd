@@ -9,8 +9,8 @@ output:
       toc:
         after: |
           <li><a href="https://framagit.org/sc/bg4ss/">
-          See the source</a></li>
-      edit: https://framagit.org/sc/bg4ss/edit/master/%s
+          source</a></li>
+      #edit: https://framagit.org/sc/bg4ss/edit/master/%s
       download: "pdf"
   bookdown::pdf_book: 
     latex_engine: pdflatex
@@ -30,8 +30,9 @@ library(magrittr)
 ```
 
 ```{r write-bib, include=FALSE}
-knitr::write_bib(c(.packages(), 'bookdown'), 'packages.bib')
+knitr::write_bib(c(.packages(), 'bookdown','tidyverse'), 'packages.bib')
 ```
 
 This book will guide you toward the class "BG4SS"
+
 
