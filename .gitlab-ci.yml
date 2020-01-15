@@ -8,5 +8,4 @@ check_pkg:
     stage: check
     script:
         - R -e 'install.packages(c())'
-        - R -e 'devtools::check()'
         - R _build.sh
