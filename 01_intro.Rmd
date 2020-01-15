@@ -64,6 +64,7 @@ library(ggthemes)
 
 
 PLOT 1:
+
 ```{r,warning=FALSE}
 iris %>%
     mutate(Species = 'ALL') %>%
@@ -76,6 +77,7 @@ iris %>%
     facet_wrap(~Species, scales = 'free') +
     theme_bw()
 ```
+
 PLOT 2:
 
 ```{r}
@@ -97,6 +99,7 @@ mtcars %>%
           axis.ticks.y = element_blank()
           )
 ```
+
 PLOT 3:
 
 ```{r}
