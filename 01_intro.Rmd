@@ -58,6 +58,7 @@ summary(mpg)
 
 ```{r,message=FALSE}
 library(ggplot2)
+library(ggthemes)
 ```
 
 
