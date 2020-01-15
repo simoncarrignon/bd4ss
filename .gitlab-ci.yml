@@ -1,10 +1,9 @@
-image: rocker/tidyverse
-
-stages:
-    - check
-
-check_pkg:
-    stage: check
+pages:
+    stage: deploy
     script:
-        - R -e 'install.packages(c("bookdown"))'
-        - bash _build.sh
+        - Rscript -e "bookdown::render_book('index.Rmd', 'all', output_dir = 'public')"
+    artifacts:
+        paths:
+            - public
+        only:
+            - master
