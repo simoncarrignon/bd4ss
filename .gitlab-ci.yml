@@ -1,11 +1,12 @@
-image: rocker/tidyverse
+image: rocker/verse
 
 pages:
   stage: deploy
   script:
-  - Rscript -e "bookdown::render_book('index.Rmd', 'all', output_dir = 'public')"
+      - Rscript -e 'install.packages(c("bookdown"))'
+      - Rscript -e "bookdown::render_book('index.Rmd', 'all', output_dir = 'public')"
   artifacts:
     paths:
-    - public
+        - public
   only:
-  - master
+      - master
