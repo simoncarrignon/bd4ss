@@ -14,6 +14,9 @@ output:
           See the source</a></li>
       edit: https://gitlab.com/RLesur/bookdown-gitlab-pages/edit/master/%s
       download: "pdf"
+  bookdown::pdf_book: 
+    latex_engine: pdflatex
+    citation_package: natbib
 documentclass: book
 bibliography: [book.bib, packages.bib]
 biblio-style: apalike
