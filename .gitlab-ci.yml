@@ -1,9 +1,15 @@
+image: debian:buster-slim
+
+before_script:
+  - apt-get update && apt-get -y install pandoc r-base
+  - R -e "install.packages('blogdown',repos='http://cran.rstudio.com')"
+  - R -e "blogdown::install_hugo()"
+
 pages:
-    stage: deploy
-    script:
-        - Rscript -e "bookdown::render_book('index.Rmd', 'all', output_dir = 'public')"
-    artifacts:
-        paths:
-            - public
-        only:
-            - master
+  script:
+    - R -e "blogdown::build_site()"
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
