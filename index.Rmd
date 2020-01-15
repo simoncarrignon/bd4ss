@@ -5,14 +5,12 @@ date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 output:
   bookdown::gitbook: 
-    includes:
-      after_body: disqus.html
     config:
       toc:
         after: |
-          <li><a href="https://gitlab.com/RLesur/bookdown-gitlab-pages">
+          <li><a href="https://framagit.org/sc/bg4ss/">
           See the source</a></li>
-      edit: https://gitlab.com/RLesur/bookdown-gitlab-pages/edit/master/%s
+      edit: https://framagit.org/sc/bg4ss/edit/master/%s
       download: "pdf"
   bookdown::pdf_book: 
     latex_engine: pdflatex
