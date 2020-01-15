@@ -20,7 +20,7 @@ library(tidyverse)
 
 * R comments start with #
 * Use text editor and beware of ”smart quotes”
-* To get help about anything use `?`: `?seq` will show you the manual to  use the function `seq` (which generate sequences of numbers)
+* To get help about anything use `?`: `?seq` will show you the manual to  use the function `seq` (a function which generates sequences of numbers)
 * To assign a value to a variable use the assignment operator `<-`
 
 ## Explore dataset:
@@ -40,9 +40,10 @@ To see the _structure_ of the data:
 ```{r}
  str(mpg)
 ```
-You cna see from the output that this is a `data.frame`:  a rectangular structure with column and lines (`?data.frame` if you want to learn more about them
+You can see from the output that this is a `data.frame`:  a rectangular structure with column and lines (`?data.frame` if you want to learn more `data.frame`). In this example all columns have the same type but they may have different types.
 
-to get the list of column names:
+
+To get the list of column names:
 ```{r}
 names(mpg)
 ```
