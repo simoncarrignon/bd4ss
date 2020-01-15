@@ -8,4 +8,4 @@ check_pkg:
     stage: check
     script:
         - R -e 'install.packages(c("bookdown"))'
-        - bash t _build.sh
+        - bash _build.sh
