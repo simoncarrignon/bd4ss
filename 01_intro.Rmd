@@ -56,7 +56,7 @@ summary(mpg)
 
 ## For the quickest
 
-```{r,message=F}
+```{r,message=FALSE}
 library(ggplot)
 ```
 
