@@ -57,58 +57,61 @@ summary(mpg)
 PLOT 1:
 ```{r}
 iris %>%
-mutate(Species = 'ALL') %>%
-bind_rows(iris) %>%
-ggplot(aes(Petal.Length, Petal.Width, color = Species)) +
-geom_point() +
-geom_smooth() +
-xlab('Petal Length') +
-ylab('Petal Width') +
-facet_wrap(~Species, scales = 'free') +
-theme_bw()
+    mutate(Species = 'ALL') %>%
+    bind_rows(iris) %>%
+    ggplot(aes(Petal.Length, Petal.Width, color = Species)) +
+    geom_point() +
+    geom_smooth() +
+    xlab('Petal Length') +
+    ylab('Petal Width') +
+    facet_wrap(~Species, scales = 'free') +
+    theme_bw()
 ```
 PLOT 2:
-```{r}
 
+```{r}
 mtcars %>%
-rownames_to_column() %>%
-mutate(rowname = forcats::fct_reorder(rowname, mpg)) %>%
-ggplot(aes(rowname, mpg, label = rowname)) +
-geom_point() +
-geom_text(nudge_y = .3, hjust = 'left') +
-coord_flip() +
-ylab('Miles per gallon fuel consumption') +
-ylim(10, 40) +
-theme_classic() +
-theme(plot.title = element_text(hjust = 0, size = 16),
-axis.title.x = element_text(face = 'bold'),
-axis.title.y = element_blank(),
-axis.text.y = element_blank(),
-axis.ticks.y = element_blank())
+    rownames_to_column() %>%
+    mutate(rowname = forcats::fct_reorder(rowname, mpg)) %>%
+    ggplot(aes(rowname, mpg, label = rowname)) +
+    geom_point() +
+    geom_text(nudge_y = .3, hjust = 'left') +
+    coord_flip() +
+    ylab('Miles per gallon fuel consumption') +
+    ylim(10, 40) +
+    theme_classic() +
+    theme(plot.title = element_text(hjust = 0, size = 16),
+          axis.title.x = element_text(face = 'bold'),
+          axis.title.y = element_blank(),
+          axis.text.y = element_blank(),
+          axis.ticks.y = element_blank())
 ```
 PLOT 3:
+
 ```{r}
 mtcars %>%
-ggplot(aes(mpg, qsec, size = disp, color = as.factor(am))) +
-geom_point() +
-scale_colour_discrete(name ="Gear",
-breaks=c(0, 1),
-labels=c("Manual", "Automatic")) +
-scale_size_continuous(name = 'Displacement') +
-xlab('Miles per gallon') +
-ylab('1/4 mile time') +
-theme_light()
+    ggplot(aes(mpg, qsec, size = disp, color = as.factor(am))) +
+    geom_point() +
+    scale_colour_discrete(name ="Gear",
+    breaks=c(0, 1),
+    labels=c("Manual", "Automatic")) +
+    scale_size_continuous(name = 'Displacement') +
+    xlab('Miles per gallon') +
+    ylab('1/4 mile time') +
+    theme_light()
 ```
+
 PLOT 4:
+
 ```{r}
 economics %>%
-ggplot(aes(date, uempmed)) +
-geom_line() +
-expand_limits(y = 0) +
-ggtitle('Median duration of unemployment [weeks]') +
-ylab('Median duration of unemployment [weeks]') +
-ggthemes::theme_economist_white() +
-theme(axis.title.x = element_blank())
+    ggplot(aes(date, uempmed)) +
+    geom_line() +
+    expand_limits(y = 0) +
+    ggtitle('Median duration of unemployment [weeks]') +
+    ylab('Median duration of unemployment [weeks]') +
+    ggthemes::theme_economist_white() +
+    theme(axis.title.x = element_blank())
 ```
 
 
