@@ -3,7 +3,6 @@ image: rocker/verse
 pages:
   stage: deploy
   script:
-      - Rscript -e "install.packages('ggplot2')"
       - Rscript -e "bookdown::render_book('index.Rmd', 'all', output_dir = 'public')"
   artifacts:
     paths:

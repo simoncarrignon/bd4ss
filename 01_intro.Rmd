@@ -57,7 +57,7 @@ summary(mpg)
 ## For the quickest
 
 ```{r,message=FALSE}
-library(ggplot)
+library(ggplot2)
 ```
 
 
