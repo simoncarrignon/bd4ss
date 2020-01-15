@@ -15,8 +15,100 @@ Install and load `tidyverse`
 install.packages("tidyverse")
 library(tidyverse)
 ```
+## Basics :
+
+* R comments start with #
+* Use text editor and beware of ”smart quotes”
+* To get help about anything use `?`: `?seq` will show you the manual to  use the function `seq` (which generate sequences of numbers)
+* To assign a value to a variable use the assignment operator `<-`
+
+## Explore dataset:
+
+We will use the mpg dataset which is load by default with `tidyverse`
+
+To have more info about this dataset:
+```{r}
+?mpg 
+```
+To see the first lines of a dataset:
+```{r}
+ head(mpg) 
+```
+
+To see the _structure_ of the data:
+```{r}
+ str(mpg)
+```
+You cna see from the output that this is a `data.frame`:  a rectangular structure with column and lines (`?data.frame` if you want to learn more about them
+
+to get the list of column names:
+```{r}
+names(mpg)
+```
+
+To get some simple summary statistics of the dataset:
+
+```{r}
+summary(mpg)
+```
 
 
+PLOT 1:
+```{r}
+iris %>%
+mutate(Species = 'ALL') %>%
+bind_rows(iris) %>%
+ggplot(aes(Petal.Length, Petal.Width, color = Species)) +
+geom_point() +
+geom_smooth() +
+xlab('Petal Length') +
+ylab('Petal Width') +
+facet_wrap(~Species, scales = 'free') +
+theme_bw()
+```
+PLOT 2:
+```{r}
+
+mtcars %>%
+rownames_to_column() %>%
+mutate(rowname = forcats::fct_reorder(rowname, mpg)) %>%
+ggplot(aes(rowname, mpg, label = rowname)) +
+geom_point() +
+geom_text(nudge_y = .3, hjust = 'left') +
+coord_flip() +
+ylab('Miles per gallon fuel consumption') +
+ylim(10, 40) +
+theme_classic() +
+theme(plot.title = element_text(hjust = 0, size = 16),
+axis.title.x = element_text(face = 'bold'),
+axis.title.y = element_blank(),
+axis.text.y = element_blank(),
+axis.ticks.y = element_blank())
+```
+PLOT 3:
+```{r}
+mtcars %>%
+ggplot(aes(mpg, qsec, size = disp, color = as.factor(am))) +
+geom_point() +
+scale_colour_discrete(name ="Gear",
+breaks=c(0, 1),
+labels=c("Manual", "Automatic")) +
+scale_size_continuous(name = 'Displacement') +
+xlab('Miles per gallon') +
+ylab('1/4 mile time') +
+theme_light()
+```
+PLOT 4:
+```{r}
+economics %>%
+ggplot(aes(date, uempmed)) +
+geom_line() +
+expand_limits(y = 0) +
+ggtitle('Median duration of unemployment [weeks]') +
+ylab('Median duration of unemployment [weeks]') +
+ggthemes::theme_economist_white() +
+theme(axis.title.x = element_blank())
+```
 
 
  
