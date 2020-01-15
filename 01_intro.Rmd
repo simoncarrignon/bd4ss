@@ -54,6 +54,13 @@ summary(mpg)
 ```
 
 
+## For the quickest
+
+```{r,message=F}
+library(ggplot)
+```
+
+
 PLOT 1:
 ```{r}
 iris %>%
