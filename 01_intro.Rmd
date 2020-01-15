@@ -64,7 +64,7 @@ library(ggthemes)
 
 
 PLOT 1:
-```{r,warnings=F}
+```{r,warning=FALSE}
 iris %>%
     mutate(Species = 'ALL') %>%
     bind_rows(iris) %>%
