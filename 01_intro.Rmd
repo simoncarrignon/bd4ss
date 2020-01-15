@@ -11,7 +11,7 @@ setwd(".")
 
 Install and load `tidyverse`
 
-```{r,results="hide",message=F}
+```{r,results="hide",message=F,warnings=FALSE}
 install.packages("tidyverse")
 library(tidyverse)
 ```
