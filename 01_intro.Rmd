@@ -1,4 +1,5 @@
 # Introduction{#intro}
+First class, introduction to `R` and how to use it
 
 ## General R usage
 
