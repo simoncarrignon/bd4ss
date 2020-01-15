@@ -16,7 +16,7 @@ output:
     latex_engine: pdflatex
     citation_package: natbib
 documentclass: book
-bibliography: [book.bib, packages.bib]
+bibliography: packages.bib
 biblio-style: apalike
 link-citations: yes
 github-repo: simoncarrignon/bg4ss
