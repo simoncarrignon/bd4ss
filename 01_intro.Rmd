@@ -40,7 +40,7 @@ To see the _structure_ of the data:
 ```{r}
  str(mpg)
 ```
-You can see from the output that this is a `data.frame`:  a rectangular structure with column and lines (`?data.frame` if you want to learn more `data.frame`). In this example all columns have the same type but they may have different types.
+You can see from the output that this is a `data.frame`:  a rectangular structure with column and lines (`?data.frame` if you want to learn more `data.frame`). As you can see each column may store data of different types: here `int` _ie_ numbers and `chrs` _ie_ string of characters.
 
 
 To get the list of column names:
