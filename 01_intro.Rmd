@@ -1,0 +1,22 @@
+#Introduction{#intro}
+
+## General R usage
+
+Set up your directory
+
+```{r}
+
+```
+
+
+Install and load `tidyverse`
+```{r}
+install.packages("tidyverse")
+library(tidyverse)
+```
+
+
+
+
+ 
+
