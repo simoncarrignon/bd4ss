@@ -80,11 +80,13 @@ mtcars %>%
     ylab('Miles per gallon fuel consumption') +
     ylim(10, 40) +
     theme_classic() +
-    theme(plot.title = element_text(hjust = 0, size = 16),
+    theme(
+          plot.title = element_text(hjust = 0, size = 16),
           axis.title.x = element_text(face = 'bold'),
           axis.title.y = element_blank(),
           axis.text.y = element_blank(),
-          axis.ticks.y = element_blank())
+          axis.ticks.y = element_blank()
+          )
 ```
 PLOT 3:
 
