@@ -135,7 +135,7 @@ library(ggthemes)
 
 PLOT 1:
 
-```{r,echo=FALSE,warning=FALSE}
+```{r,echo=FALSE,warning=FALSE,message=FALSE}
 iris %>%
     mutate(Species = 'ALL') %>%
     bind_rows(iris) %>%
@@ -186,6 +186,7 @@ mtcars %>%
 ```
 
 PLOT 4:
+(hint you will need to use `theme_economist_white()` from ggthemes)
 
 ```{r,echo=FALSE}
 economics %>%
