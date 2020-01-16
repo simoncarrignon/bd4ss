@@ -12,7 +12,7 @@ setwd(".")
 
 Install and load `tidyverse`
 
-```{r,results="hide",message=F,warnings=FALSE}
+```{r,results="hide",message=F,warning=FALSE}
 install.packages("tidyverse")
 library(tidyverse)
 ```
@@ -98,11 +98,11 @@ cementery
 
 ## Working directory
 
-```{r}
-setwd("~/projects/bg4ss/") #adapt with a directory that exists in your computer 
+```{r,eval=FALSE}
+setwd("~/projects/bg4ss/") #adapt this command with a directory that exists in your computer 
 ```
 
-To now the actual working directory:
+To know the actual working directory:
 
 ```{r}
 getwd()
