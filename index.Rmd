@@ -23,11 +23,11 @@ github-repo: simoncarrignon/bg4ss
 description: "First draft of Rbookdown for UT class big data for social scientists"
 favicon: "favicon.ico"
 ---
-
 # Preface{-}
 
 ```{r setup, include=FALSE}
 library(magrittr)
+knitr::opts_chunk$set(collapse=TRUE)
 ```
 
 ```{r write-bib, include=FALSE}
