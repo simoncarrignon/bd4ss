@@ -135,7 +135,7 @@ library(ggthemes)
 
 PLOT 1:
 
-```{r,include=FALSE,warning=FALSE}
+```{r,echo=FALSE,warning=FALSE}
 iris %>%
     mutate(Species = 'ALL') %>%
     bind_rows(iris) %>%
@@ -150,7 +150,7 @@ iris %>%
 
 PLOT 2:
 
-```{r,include=FALSE}
+```{r,echo=FALSE}
 mtcars %>%
     rownames_to_column() %>%
     mutate(rowname = forcats::fct_reorder(rowname, mpg)) %>%
@@ -172,7 +172,7 @@ mtcars %>%
 
 PLOT 3:
 
-```{r ,include=FALSE}
+```{r ,echo=FALSE}
 mtcars %>%
     ggplot(aes(mpg, qsec, size = disp, color = as.factor(am))) +
     geom_point() +
@@ -187,7 +187,7 @@ mtcars %>%
 
 PLOT 4:
 
-```{r,include=FALSE}
+```{r,echo=FALSE}
 economics %>%
     ggplot(aes(date, uempmed)) +
     geom_line() +
