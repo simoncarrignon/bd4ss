@@ -124,6 +124,8 @@ plot(mpg$cty,mpg$hwy)
 ```
 
 ## For those who finished all
+Can you reproduce the following plots?
+You will need some of the libraries listed below.
 
 ```{r,message=FALSE}
 library(ggplot2)
@@ -133,7 +135,7 @@ library(ggthemes)
 
 PLOT 1:
 
-```{r,warning=FALSE}
+```{r,include=FALSE,warning=FALSE}
 iris %>%
     mutate(Species = 'ALL') %>%
     bind_rows(iris) %>%
@@ -148,7 +150,7 @@ iris %>%
 
 PLOT 2:
 
-```{r}
+```{r,include=FALSE}
 mtcars %>%
     rownames_to_column() %>%
     mutate(rowname = forcats::fct_reorder(rowname, mpg)) %>%
@@ -170,7 +172,7 @@ mtcars %>%
 
 PLOT 3:
 
-```{r}
+```{r ,include=FALSE}
 mtcars %>%
     ggplot(aes(mpg, qsec, size = disp, color = as.factor(am))) +
     geom_point() +
@@ -185,7 +187,7 @@ mtcars %>%
 
 PLOT 4:
 
-```{r}
+```{r,include=FALSE}
 economics %>%
     ggplot(aes(date, uempmed)) +
     geom_line() +
