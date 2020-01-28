@@ -40,7 +40,7 @@ The function we will use to create county choropleth maps is called
 `county_choropleth`
 Pass it as a data frame with one column named region and one column named value
 
-```{r}
+```{r, eval=F}
 install.packages(c("choroplethr", "choroplethrMaps"))
 library(choroplethr)
 library(choroplethrMaps)
@@ -53,7 +53,7 @@ Install a mapping package
 https://www.gislounge.com/mapping-county-demographic-data-in-r/
 
 ## Map obesity 2013
-```{r}
+```{r, eval =F}
 county_choropleth(Obesity_map_2013)
 ```
 
