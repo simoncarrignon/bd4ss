@@ -1,7 +1,7 @@
 --- 
 title: "Big Data For Social Scientists"
 author: "Alex Bentley, Damian Ruck, Simon  Carrignon"
-date: "`r Sys.Date()`"
+date: "2020"
 site: bookdown::bookdown_site
 output:
   bookdown::gitbook: 
