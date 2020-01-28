@@ -1,0 +1,214 @@
+# Mapping obesity
+Second class, read data and map then
+
+
+
+## CSV files: import and use them
+
+Each cell 
+Feel free to use Excel to format data
+Excel file
+
+CSV file
+
+## CDC data
+
+Get formatted data
+
+Put those `CSV` files in your R directory (advice: create a subdirectory `data`)
+
+
+```
+Obesity_2013.csv
+Obesity_2004.csv
+Income_2013.csv
+Obesity_data_2013_county.csv
+```
+
+Import those files as data frames in R
+
+```{r}
+Obesity_map_2013 <- read.csv("data/Obesity_2013.csv")
+Obesity_map_2004 <- read.csv("data/Obesity_2004.csv")
+obesity_cov_2013 <- read.csv("data/Obesity_data_2013_county.csv")
+```
+
+
+# choropleth package
+Install a mapping package
+The function we will use to create county choropleth maps is called
+`county_choropleth`
+Pass it as a data frame with one column named region and one column named value
+
+```{r}
+install.packages(c("choroplethr", "choroplethrMaps"))
+library(choroplethr)
+library(choroplethrMaps)
+```
+
+https://www.gislounge.com/mapping-county-demographic-data-in-r/
+
+Install a mapping package
+
+https://www.gislounge.com/mapping-county-demographic-data-in-r/
+
+## Map obesity 2013
+```{r}
+county_choropleth(Obesity_map_2013)
+```
+
+Obesity 2004
+Diabetes, women, 2013
+Obesity 2013
+Diabetes, women, 2013
+
+## Lets look at the obesity data
+
+```{r}
+obesity_cov_2013 <- read.csv(“Obesity_data_2013_county.csv”)
+```
+
+
+
+Warm-up: Show the structure, first 2 values etc.
+Create scatterplot: Obesity versus Income
+Fit trendiness through scatterplots
+Explore correlations between variables
+
+Structure of the obesity data
+
+## First several rows of data frame
+
+Last several rows of data frame
+
+Last five rows
+
+Plotting obesity data
+* Create a scatter plot in ggplot: Income vs obesity in USA
+* Check correlation between income and obesity
+
+## Plot income vs. obesity
+```{r}
+ggplot(data = obesity_cov_2013) + geom_point(mapping = aes(x=
+Income, y= Obes__aa))
+```
+Two underscores
+
+Add axis label:
+```{r}
+ggplot(data = obesity_cov_2013) + geom_point(mapping
+= aes(x= Income, y= Obes__aa)) + ylab("Obesity (%)")
+```
+
+
+## Use log-transformed income
+
+```{r}
+ggplot(data = obesity_cov_2013) + geom_point(mapping = aes(x=
+Log_income, y= Obes__aa)) + ylab("Obesity (%)") +
+xlab("ln(income)")
+```
+
+
+### Add linear trend line with 95% CI
+```{r}
+ggplot(data = obesity_cov_2013, aes(x= Log_income, y= Obes__aa))
++ geom_point() + geom_smooth(method=lm)
+```
+
+### Add loess trend line with 95% CI
+```{r}
+ggplot(data = obesity_cov_2013, aes(x= Log_income, y= Obes__aa))
++ geom_point() + geom_smooth()
+```
+
+### Correlation income vs. obesity
+```{r}
+ cor.test(obesity_cov_2013$Income,obesity_cov_2013$Obes__aa)
+```
+
+Using income
+
+```{r}
+ cor.test(obesity_cov_2013$Log_income,obesity_cov_2013$Obes__aa)
+```
+
+Using
+```{r}
+log(income)
+```
+
+### Try a few other correlations or plots
+
+```
+County_pop: population of county
+County_houses: households in county
+Urban_fract: % urban population in county
+Diab__aa: Diabetes %
+Leis__aa: “leisure” statistic
+lalowihalfshare: food deserts
+```
+
+
+Try a facet plot…?
+
+## Facet plot
+```{r}
+ggplot(data = obesity_cov_2013, aes(x= Log_income, y= Obes__aa)) + geom_point() +
+geom_smooth(method=lm)+ facet_wrap(~ State.1, nrow=10)
+```
+
+`bes__aa`
+
+How can we limit number of states?
+
+Log_income
+
+# Facet plot
+```{r}
+ggplot(data = obesity_cov_2013[1:286,], aes(x= Log_income, y=
+Obes__aa)) + geom_point() + geom_smooth(method=lm)+ facet_wrap(~
+State.1, nrow=3) + ylab(“Obesity”)
+```
+
+
+One way:
+plot only a range of rows
+
+
+Facet plot
+
+Two
+underscores
+
+One way:
+Subset the data
+
+```{r}
+Alabama <- obesity_cov_2013[ which(obesity_cov_2013$State.1=='AL'),]
+first12 <- obesity_cov_2013[ which(obesity_cov_2013$State <=12),]
+```
+
+
+Correlations within each state
+(google it!)
+
+You must translate this googled answer into your data
+
+# Correlations within each state
+
+```{r}
+r <- by(obesity_cov_2013, obesity2013$State.1, FUN =
+function(X) cor(X$Income, X$Obes__aa, method = "spearman"))
+```
+
+
+Now group by state and do the same thing, using obesity_cov_2013
+
+```{r}
+require(plyr)
+ func <- function(obesity_cov_2013) {return(data.frame(COR =
+cor(obesity_cov_2013$Income, obesity_cov_2013$Obes__aa)))}
+ ddply(obesity_cov_2013, .(State), func)
+```
+
