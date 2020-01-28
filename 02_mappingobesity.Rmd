@@ -65,7 +65,7 @@ Diabetes, women, 2013
 ## Lets look at the obesity data
 
 ```{r}
-obesity_cov_2013 <- read.csv("Obesity_data_2013_county.csv")
+obesity_cov_2013 <- read.csv("data/Obesity_data_2013_county.csv")
 ```
 
 
