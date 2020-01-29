@@ -8,9 +8,9 @@ output:
     config:
       toc:
         after: |
-          <li><a href="https://framagit.org/sc/bg4ss/">
+          <li><a href="https://framagit.org/sc/bd4ss/">
           source</a></li>
-      edit: https://framagit.org/sc/bg4ss/edit/master/%s
+      edit: https://framagit.org/sc/bd4ss/edit/master/%s
       download: "pdf"
   bookdown::pdf_book: 
     latex_engine: pdflatex
