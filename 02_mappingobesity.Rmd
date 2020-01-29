@@ -34,8 +34,8 @@ obesity_cov_2013 <- read.csv("data/Obesity_data_2013_county.csv")
 ```
 
 
-# choropleth package
-Install a mapping package
+## choropleth package
+Install and use a  mapping package
 The function we will use to create county choropleth maps is called
 `county_choropleth`
 Pass it as a data frame with one column named region and one column named value
@@ -92,16 +92,20 @@ Plotting obesity data
 ggplot(data = obesity_cov_2013) + geom_point(mapping = aes(x=
 Income, y= Obes__aa))
 ```
+
 Two underscores
 
-Add axis label:
+Change default (y-)axis label:
 ```{r}
-ggplot(data = obesity_cov_2013) + geom_point(mapping
-= aes(x= Income, y= Obes__aa)) + ylab("Obesity (%)")
+ggplot(data = obesity_cov_2013) + 
+geom_point(mapping = aes(x = Income, y = Obes__aa)) + 
+ylab("Obesity (%)")
 ```
 
 
 ## Use log-transformed income
+
+Sometime to be able to better grasp the nature of your data you need to transform them. For data that cross different scales we often use a logarithmic transformation:
 
 ```{r}
 ggplot(data = obesity_cov_2013) + geom_point(mapping = aes(x=Log_income, y= Obes__aa)) +
