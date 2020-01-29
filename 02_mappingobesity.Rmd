@@ -104,22 +104,20 @@ ggplot(data = obesity_cov_2013) + geom_point(mapping
 ## Use log-transformed income
 
 ```{r}
-ggplot(data = obesity_cov_2013) + geom_point(mapping = aes(x=
-Log_income, y= Obes__aa)) + ylab("Obesity (%)") +
+ggplot(data = obesity_cov_2013) + geom_point(mapping = aes(x=Log_income, y= Obes__aa)) +
+ylab("Obesity (%)") +
 xlab("ln(income)")
 ```
 
 
 ### Add linear trend line with 95% CI
 ```{r}
-ggplot(data = obesity_cov_2013, aes(x= Log_income, y= Obes__aa))
-+ geom_point() + geom_smooth(method=lm)
+ggplot(data = obesity_cov_2013, aes(x= Log_income, y= Obes__aa)) + geom_point() + geom_smooth(method=lm)
 ```
 
 ### Add loess trend line with 95% CI
 ```{r}
-ggplot(data = obesity_cov_2013, aes(x= Log_income, y= Obes__aa))
-+ geom_point() + geom_smooth()
+ggplot(data = obesity_cov_2013, aes(x= Log_income, y= Obes__aa)) + geom_point() + geom_smooth()
 ```
 
 ### Correlation income vs. obesity
@@ -133,10 +131,7 @@ Using income
  cor.test(obesity_cov_2013$Log_income,obesity_cov_2013$Obes__aa)
 ```
 
-Using
-```{r}
-log(income)
-```
+Using log(income)
 
 ### Try a few other correlations or plots
 
@@ -162,13 +157,11 @@ geom_smooth(method=lm)+ facet_wrap(~ State.1, nrow=10)
 
 How can we limit number of states?
 
-Log_income
+`Log_income`
 
 # Facet plot
 ```{r}
-ggplot(data = obesity_cov_2013[1:286,], aes(x= Log_income, y=
-Obes__aa)) + geom_point() + geom_smooth(method=lm)+ facet_wrap(~
-State.1, nrow=3) + ylab(“Obesity”)
+ggplot(data = obesity_cov_2013[1:286,], aes(x= Log_income, y=Obes__aa)) + geom_point() + geom_smooth(method=lm)+ facet_wrap(~State.1, nrow=3) + ylab("Obesity")
 ```
 
 
@@ -198,7 +191,7 @@ You must translate this googled answer into your data
 # Correlations within each state
 
 ```{r}
-r <- by(obesity_cov_2013, obesity2013$State.1, FUN =
+r <- by(obesity_cov_2013, obesity_cov_2013$State.1, FUN =
 function(X) cor(X$Income, X$Obes__aa, method = "spearman"))
 ```
 
