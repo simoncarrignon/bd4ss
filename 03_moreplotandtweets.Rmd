@@ -141,12 +141,29 @@ setup_twitter_oauth(consumer_key,
                     access_secret)
 ```
 
-Exploring tweets from the 2018 conference of the Cultural Evolution Society :
+```{r,include=F}
+load(file="bin/govols.bin")
+```
+
+We first look for all tweet with the hashtag [#GoVols](https://twitter.com/search?q=GoVols&f=live)
+
+```{r,eval=F}
+govols <- searchTwitter("#GoVols", n=3000)
+```
+
+Then we extract the date of the tweet store it in a vector: 
 
 ```{r}
-
-ces2018 <- searchTwitter("#CESConf2018", n=1500)
+alldates=sapply(govols,function(l)format(l$created,"%D-%I%p"))
 ```
+
+As we formated the tweets in a way that only the days and the hours are used, we can count how many tweets we have for all those days and hours and plot it:
+
+```{r}
+counttweets=table(alldates)
+plot(counttweets,ylab="Number of tweets",xlab="Date",type="l" )
+```
+
 
 
 
