@@ -89,7 +89,7 @@ ggplot(data = obesity_cov_2013) + geom_boxplot(aes(State.1,Income))+coord_flip()
 Get mean value of columns 7 through 13 for each state with this command
 
 ```{r}
-States_2013 <- aggregate(obesity_2013[, 7:11], list(State = obesity_2013$State.1), mean)
+States_2013 <- aggregate(obesity_cov_2013[, 7:11], list(State = obesity_cov_2013$State.1), mean)
 ```
 
  `States_2013` now has  values averaged across counties (not population) for each state. Is it useful? Note that a boxplot of these state-averaged data shows much less!
