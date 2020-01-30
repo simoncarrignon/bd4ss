@@ -42,11 +42,8 @@ library(lubridate)
 
 ```{r}
 ggplot(data = diamonds) + geom_bar(mapping = aes(x=cut))
-
 ggplot(data = diamonds) + geom_bar(mapping = aes(x=cut, color=cut))
-
 ggplot(data = diamonds) + geom_bar(mapping = aes(x=cut, fill=cut))
-
 ggplot(data = diamonds) + geom_bar(mapping = aes(x=cut, fill = clarity), position = "dodge")
 # careful with parentheses above
 
@@ -117,7 +114,7 @@ install.packages("twitteR")
 library(twitteR)
 ```
 
-```{r, include=F,execute=F,echo=FALSE}
+```{r, include=F,eval=F,echo=FALSE}
 #to get your consumerKey and consumerSecret see the twitteR documentation for instructions
 consumer_key <- 'sHpzxLvtUar6TiQ4kBVsOnFFg'
 consumer_secret <- 'Rf6uBiU9KAdGy6i1Vq9J52aCsDvQbb7IheL13MZMqDr7EI2lWL'
@@ -129,7 +126,7 @@ setup_twitter_oauth(consumer_key,
                     access_secret)
 ```
 
-```{r ,execute=FALSE}
+```{r ,eval=FALSE}
 #to get your consumerKey and consumerSecret see the twitteR documentation for instructions
 consumer_key <- 'your key'
 consumer_secret <- 'your secret'
