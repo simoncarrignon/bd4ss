@@ -111,9 +111,13 @@ For the class "Big Data for Social Scientist, at the University of Tennessee Kno
 ## Usefull PACKAGES
 ```{r}
 library(tidyverse)
+install.packages(tidytext)
 library(tidytext)
+install.packages(lubridate)
 library(lubridate)
+install.packages(stringr)
 library(stringr)
+install.packages(tidyr)
 library(tidyr)
 ```
 
