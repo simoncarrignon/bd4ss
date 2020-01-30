@@ -6,7 +6,7 @@
 
 This tutorial will cover the following:
 * Practice more plots in ggplot;
-* Practice ggplots using the public health dataframe (obesity_cov_2013) from previous lab.
+* Practice ggplots using the public health dataframe (`obesity_cov_2013`) from previous lab.
 * Begin to use Twitter data – from an archived dataset
 * If you want to access Twitter API yourself (not required), you’ll need your Twitter account (see below).
 
@@ -74,13 +74,13 @@ Or just remove x-axis label
 ggplot(data = obesity_cov_2013) + geom_boxplot(aes(State.1,Income))+xlab("")
 ```
 
-Too many states on the on x-axis?  Try rotating the boxplot: with coord_flip()
+Too many states on the on x-axis?  Try rotating the boxplot: with `coord_flip()`
 
 ```{r}
 ggplot(data = obesity_cov_2013) + geom_boxplot(aes(State.1,Income))+coord_flip()
 ```
 
- Notice that the states are still addressed by xlab() when using coord_flip()
+ Notice that the states are still addressed by `xlab()` when using `coord_flip()`
 
  Want average values for each state? 
 Get mean value of columns 7 through 13 for each state with this command
