@@ -150,7 +150,7 @@ lalowihalfshare: food deserts
 
 Try a facet plot…?
 
-## Facet plot
+### Facet plot
 ```{r}
 ggplot(data = obesity_cov_2013, aes(x= Log_income, y= Obes__aa)) + geom_point() +
 geom_smooth(method=lm)+ facet_wrap(~ State.1, nrow=10)
@@ -162,7 +162,6 @@ How can we limit number of states?
 
 `Log_income`
 
-# Facet plot
 ```{r}
 ggplot(data = obesity_cov_2013[1:286,], aes(x= Log_income, y=Obes__aa)) + geom_point() + geom_smooth(method=lm)+ facet_wrap(~State.1, nrow=3) + ylab("Obesity")
 ```
@@ -191,7 +190,7 @@ Correlations within each state
 
 You must translate this googled answer into your data
 
-# Correlations within each state
+### Correlations within each state
 
 ```{r}
 r <- by(obesity_cov_2013, obesity_cov_2013$State.1, FUN =
