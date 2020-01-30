@@ -35,8 +35,8 @@ Then put all those `csv` files in a R directory (advice: to better organize your
 To import those files as data frames in R: 
 
 ```{r}
-Obesity_map_2013 <- read.csv("data/Obesity_2013.csv")
-Obesity_map_2004 <- read.csv("data/Obesity_2004.csv")
+obesity_map_2013 <- read.csv("data/Obesity_2013.csv")
+obesity_map_2004 <- read.csv("data/Obesity_2004.csv")
 obesity_cov_2013 <- read.csv("data/Obesity_data_2013_county.csv")
 ```
 
@@ -58,7 +58,7 @@ Other more complex package to handle map can be found:
 
 
 ```{r, eval =F}
-county_choropleth(Obesity_map_2013)
+county_choropleth(obesity_map_2013)
 ```
 
 ## Exploring Data
