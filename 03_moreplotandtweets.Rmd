@@ -99,7 +99,7 @@ States_2013 <- aggregate(obesity_cov_2013[, 7:11], list(State = obesity_cov_2013
 
 Read data into dataframe:
 
-```{r}
+```{r,eval=F}
 tweets <- read.csv("streamlined_tweets.csv")
 ```
 
