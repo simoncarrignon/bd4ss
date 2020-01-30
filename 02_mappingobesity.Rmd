@@ -1,31 +1,38 @@
-# Mapping obesity
-Second class, read data and map then
+# Mapping and exploring real datasets: the case study of Obesity
+
+Second class, read data, map and explore then
 
 
 
 ## CSV files: import and use them
 
-Each cell 
-Feel free to use Excel to format data
-Excel file
+In a `csv` file each cell is separated by a special character, which is usually a comma (Comma Separated Values), although other character can be used as well. In Europe, semi column (`;`) is often used to avoid confusion as the comma is used for separate unit with decimal.
 
-CSV file
-
-## CDC data
-
-Get formatted data
-
-Put those `CSV` files in your R directory (advice: create a subdirectory `data`)
-
-
-```
-Obesity_2013.csv
-Obesity_2004.csv
-Income_2013.csv
-Obesity_data_2013_county.csv
+The usual way to import a `csv` file called `mydata.csv` in R is by using `read.csv` function:
+```{r,eval=F}
+mydata=read.csv("mydata.csv") #read the csv file mydata.csv and store the result in an object called mydata
 ```
 
-Import those files as data frames in R
+Feel free to use Excel or Libreoffice to format data. Usually, those program don't use `csv` format to save file you usually create with such software. To save a table you created using Excel or something similar, you may need to use the `Export to csv` option.
+
+## The CDC data sets
+
+### Download the data 
+The website [Center for Disease Control and Prevention](cdc.gov) offers various dataset that you can use and explore. 
+
+But before using those data set you will need to organize them in a format readable and usable by `R` and `ggplot`. For the purpose of this class we give you the dataset already formatted in the way we will need.
+The file we need are:
+* [`Obesity_2013.csv`](data/Obesity_2013.csv)
+* [`Obesity_2004.csv`](data/Obesity_2004.csv)
+* [`Income_2013.csv`](data/Income_2013.csv)
+* [`Obesity_data_2013_county.csv`](data/Obesity_data_2013_county.csv)
+
+You can download them by clicking to above's links.
+Then put all those `csv` files in a R directory (advice: to better organize your the folder your are working in you can create another subdirectory `data` and store all your `csv` file within the directory)
+
+### Import the data in R
+
+To import those files as data frames in R: 
 
 ```{r}
 Obesity_map_2013 <- read.csv("data/Obesity_2013.csv")
@@ -33,10 +40,10 @@ Obesity_map_2004 <- read.csv("data/Obesity_2004.csv")
 obesity_cov_2013 <- read.csv("data/Obesity_data_2013_county.csv")
 ```
 
-
-## choropleth package
+### Visualize the data
+A quick way to visualise those data is to use the `choropleth` package
 Install and use a  mapping package
-The function we will use to create county choropleth maps is called
+The function we will use to create county `choropleth` maps is called
 `county_choropleth`
 Pass it as a data frame with one column named region and one column named value
 
@@ -46,23 +53,15 @@ library(choroplethr)
 library(choroplethrMaps)
 ```
 
-https://www.gislounge.com/mapping-county-demographic-data-in-r/
+Other more complex package to handle map can be found: 
+* [](https://www.gislounge.com/mapping-county-demographic-data-in-r/)
 
-Install a mapping package
 
-https://www.gislounge.com/mapping-county-demographic-data-in-r/
-
-## Map obesity 2013
 ```{r, eval =F}
 county_choropleth(Obesity_map_2013)
 ```
 
-Obesity 2004
-Diabetes, women, 2013
-Obesity 2013
-Diabetes, women, 2013
-
-## Lets look at the obesity data
+## Exploring Data
 
 ```{r}
 obesity_cov_2013 <- read.csv("data/Obesity_data_2013_county.csv")
