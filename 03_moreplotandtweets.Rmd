@@ -109,7 +109,7 @@ tweets <- read.csv("streamlined_tweets.csv")
 
 You will need to install `twitteR` package and load it:
 
-```{r,eval=F}
+```{r}
 install.packages("twitteR")
 library(twitteR)
 ```
