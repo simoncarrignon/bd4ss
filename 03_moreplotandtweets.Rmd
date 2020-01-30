@@ -96,11 +96,63 @@ States_2013 <- aggregate(obesity_cov_2013[, 7:11], list(State = obesity_cov_2013
 
 ## BEGINNING WITH TWITTER DATASET
 
-Once you are connected with your account (or one done for the occasion) 
-you can go to [twitter API](https://developer.twitter.com/apps)to request for a token to use the API: 
+If you want to access Twitter API yourself (not required), you’ll need your Twitter account and create an app to get developper access to twitter API.
+To do so, once you are connected with your account (or one done for the occasion) 
+you can go to [twitter API](https://developer.twitter.com/apps)
 
 
 ![](images/creatApp.png)
+
+In your words:
+```
+For the class "Big Data for Social Scientist, at the University of Tennessee Knoxville, we want to create an app to interact with the twitter API.  This will allow us  to generate and explore a simple data set, and learn about methods to do so with R.  
+```
+
+## Usefull PACKAGES
+```{r}
+library(tidyverse)
+library(tidytext)
+library(lubridate)
+library(stringr)
+library(tidyr)
+```
+
+LOAD DATA SET (CHOOSE ONE) If you’re interested in the full 350MB dataset, let us know….
+NBC dataset (smaller, best for in-class exercise):
+```{r}
+tweets <- read.csv("streamlined_tweets.csv")
+```
+
+LOOK AT this DATAFRAME
+```{r}
+head(tweets)
+View(tweets)
+```
+
+FORMAT TIME STAMPS NBC:
+
+```{r}
+tweets_dated <- tweets %>% mutate(Date = mdy_hm(Date))
+```
+
+PLOT VOLUME OF TWEETS OVER TIME
+By bin:
+```{r}
+ggplot(data = tweets_dated, aes(x=Date)) + geom_freqpoly(bins = 859)
+```
+Cumulative:
+```{r}
+ggplot(data = tweets_dated, aes(x=Date)) + geom_histogram(aes(y=cumsum(..count..)), bins=859)
+```
+
+
+RIBBON PLOT OF TWITTER NAMES OVER TIME
+```{r}
+tweets_dated %>%   mutate(Twitter_Name = fct_lump(Twitter_Name, 20)) %>%    count(month = round_date(Date, "month"), Twitter_Name) %>%  complete(month, Twitter_Name, fill = list(n = 0)) %>%     
+mutate(Twitter_Name = reorder(Twitter_Name, -n, sum)) %>%    group_by(month) %>%
+ mutate(percent = n /sum(n),      maximum = cumsum(percent),  minimum = lag(maximum, 1, 0)) %>%  ggplot(aes(month, ymin = minimum, ymax = maximum, fill = Twitter_Name)) + geom_ribbon()
+```
+
 
 
 Read data into dataframe:
