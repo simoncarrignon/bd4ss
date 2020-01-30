@@ -5,12 +5,14 @@
 ## Objectives of this lab
 
 This tutorial will cover the following:
+
 * Practice more plots in ggplot;
 * Practice ggplots using the public health dataframe (`obesity_cov_2013`) from previous lab.
 * Begin to use Twitter data – from an archived dataset
 * If you want to access Twitter API yourself (not required), you’ll need your Twitter account (see below).
 
 The R functions in this lab program should:
+
 * Find the maximum number of pages to be queried
 * Generate all the subpages that make up the reviews
 * Scrape the information from each of them
