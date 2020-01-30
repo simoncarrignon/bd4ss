@@ -98,10 +98,10 @@ States_2013 <- aggregate(obesity_cov_2013[, 7:11], list(State = obesity_cov_2013
 ## BEGINNING WITH TWITTER DATASET
 
 Once you are connected with your account (or one done for the occasion) 
-you can go to twitter API to request for a token to use the API: 
+you can go to [twitter API](https://developer.twitter.com/apps)to request for a token to use the API: 
 
-![]()
-https://developer.twitter.com/apps
+
+![](images/creatApp.png)
 
 
 Read data into dataframe:
@@ -112,7 +112,7 @@ tweets <- read.csv("streamlined_tweets.csv")
 
 You will need to install `twitteR` package and load it:
 
-```{r}
+```{r,eval=F}
 install.packages("twitteR")
 library(twitteR)
 ```
