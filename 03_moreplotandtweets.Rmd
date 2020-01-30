@@ -120,13 +120,13 @@ library(tidyr)
 LOAD DATA SET (CHOOSE ONE) If you’re interested in the full 350MB dataset, let us know….
 NBC dataset (smaller, best for in-class exercise):
 ```{r}
-tweets <- read.csv("streamlined_tweets.csv")
+tweets <- read.csv("data/streamlined_tweets.csv")
 ```
 
 LOOK AT this DATAFRAME
 ```{r}
 head(tweets)
-View(tweets)
+view(tweets)
 ```
 
 FORMAT TIME STAMPS NBC:
