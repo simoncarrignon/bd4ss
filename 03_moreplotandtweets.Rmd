@@ -97,13 +97,56 @@ States_2013 <- aggregate(obesity_cov_2013[, 7:11], list(State = obesity_cov_2013
 
 ## BEGINNING WITH TWITTER DATASET
 
+Once you are connected with your account (or one done for the occasion) 
+you can go to twitter API to request for a token to use the API: 
+
+![]()
+https://developer.twitter.com/apps
+
+
 Read data into dataframe:
 
 ```{r,eval=F}
 tweets <- read.csv("streamlined_tweets.csv")
 ```
 
+You will need to install `twitteR` package and load it:
 
+```{r}
+install.packages("twitteR")
+library(twitteR)
+```
+
+```{r, include=False,execute=False,echo=FALSE}
+#to get your consumerKey and consumerSecret see the twitteR documentation for instructions
+consumer_key <- 'sHpzxLvtUar6TiQ4kBVsOnFFg'
+consumer_secret <- 'Rf6uBiU9KAdGy6i1Vq9J52aCsDvQbb7IheL13MZMqDr7EI2lWL'
+access_token <- '1171319695-6XxSMofnmLtnhXnlVXisVPw4v64smQjzdL8cygZ'
+access_secret <- '6cbJ99RinAm6UyP8g6S5RjzmANio3DgfVKLyREVuim1wP'
+setup_twitter_oauth(consumer_key,
+                    consumer_secret,
+                    access_token,
+                    access_secret)
+```
+
+```{r ,execute=FALSE}
+#to get your consumerKey and consumerSecret see the twitteR documentation for instructions
+consumer_key <- 'your key'
+consumer_secret <- 'your secret'
+access_token <- 'your access token'
+access_secret <- 'your access secret'
+setup_twitter_oauth(consumer_key,
+                    consumer_secret,
+                    access_token,
+                    access_secret)
+```
+
+Exploring tweets from the 2018 conference of the Cultural Evolution Society :
+
+```{r}
+
+ces2018 <- searchTwitter("#CESConf2018", n=1500)
+```
 
 
 
