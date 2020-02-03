@@ -28,6 +28,6 @@ knitr::opts_chunk$set(collapse=TRUE)
 knitr::write_bib(c(.packages(), 'bookdown','tidyverse'), 'packages.bib')
 ```
 
-This book will guide you toward the class "BG4SS"
+Online support for class ANTH449 ANTH660
 
 
