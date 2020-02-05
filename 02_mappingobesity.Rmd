@@ -198,10 +198,9 @@ function(X) cor(X$Income, X$Obes__aa, method = "spearman"))
 ```
 
 
-Now group by state and do the same thing, using obesity_cov_2013
+Now group by state and do the same thing, using `obesity_cov_2013`
 
 ```{r}
-require(plyr)
  func <- function(obesity_cov_2013) {return(data.frame(COR =
 cor(obesity_cov_2013$Income, obesity_cov_2013$Obes__aa)))}
  ddply(obesity_cov_2013, .(State), func)
