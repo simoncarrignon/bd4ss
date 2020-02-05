@@ -85,7 +85,7 @@ ggplot(data = tweets_dated, aes(x=Date)) + geom_histogram(aes(y=cumsum(..count..
 
 #RIBBON PLOT OF TWITTER NAMES OVER TIME
 
-```{r}
+```{r, eval=F}
 tweets_dated %>% mutate(Twitter_Name = fct_lump(Twitter_Name, 20)) %>% count(month =
 round_date(Date, "month"), Twitter_Name) %>% complete(month, Twitter_Name, fill = list(n = 0)) %>%
 mutate(Twitter_Name = reorder(Twitter_Name, -n, sum)) %>% group_by(month) %>%
@@ -97,7 +97,7 @@ ggplot(aes(month, ymin = minimum, ymax = maximum, fill = Twitter_Name)) + geom_r
 ## PLOT ONE WORD (%) OVER TIME
 Hourly, reTweets removed:
 
-```{r}
+```{r, eval=F}
 tweets_dated %>% filter(!str_detect(Tweet, "^(\"|RT)")) %>% group_by(hour = round_date(Date, "hour")) %>%
 summarize(tweets = n(), hashtag = sum(str_detect(str_to_lower(Tweet), "schiff")), percent = hashtag / tweets)%>% 
 ungroup() %>% filter(tweets >= 1) %>% ggplot(aes(as.Date(hour), percent)) + geom_line() + geom_point()
