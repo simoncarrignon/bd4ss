@@ -127,19 +127,19 @@ labs(x = "X label", y = "Y label")
 ```
 
 
-### ADD LINE AT PARTICULAR DATE
+### Add a vertical line at a particular date
 
 ```{r,eval=F}
 + geom_vline(xintercept = as.integer(as.Date("2011-04-30")), color = "red", lty = 2)
 ```
 
-For example: 
+For example adding that to the previous graph gives: 
 
 ```{r}
 tweets_dated %>% filter(!str_detect(Tweet, "^(\"|RT)")) %>% group_by(hour = round_date(Date, "hour")) %>%
 summarize(tweets = n(), hashtag = sum(str_detect(str_to_lower(Tweet), "schiff")), percent = hashtag / tweets)%>% ungroup() %>% filter(tweets >= 1) %>% ggplot(aes(as.Date(hour), cumsum(percent))) + geom_line() +
 geom_point() +
-geom_vline(xintercept = as.integer(as.Date("2016-04-30")), color = "red", lty = 2)
+geom_vline(xintercept = as.integer(as.Date("2016-04-30")), color = "red", lty = 2) +
 labs(x = "X label", y = "Y label")
 ```
 
@@ -216,10 +216,12 @@ wordsPerDay <- count(daily_tweet, tweetDay)
 
 ### SENTIMENTS
 
-Different datasets exist that give for huge list of words the associated emotion. the "tidytext" library allows to use some of those dataset through the call of the function `get_sentiments`. You can for example load the [NRC word-emotion association lexicon](https://www.saifmohammad.com/WebPages/NRC-Emotion-Lexicon.htm) by doing: 
+Different datasets exist that give huge list of words and their associated emotion. The `tidytext` library allows to use some of those datasets through the call of the function `get_sentiments`. You can for example load the [NRC word-emotion association lexicon](https://www.saifmohammad.com/WebPages/NRC-Emotion-Lexicon.htm) by doing: 
 ```{r}
 nrc <-get_sentiments("nrc")
 ```
+
+Then you can easily count for each tweet the number of word corresponding to differents emotions using a command like the following one:
 
 ```{r}
 tweet_sentiment <- tidy_tweets %>% inner_join(nrc) %>% count(index = Date, sentiment) %>%
