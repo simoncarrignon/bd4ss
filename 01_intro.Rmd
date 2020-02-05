@@ -14,11 +14,12 @@ Install and load `tidyverse`
 
 ```{r,results="hide",message=F,warning=FALSE}
 install.packages("tidyverse")
+library(plyr)
 library(tidyverse)
 ```
 ## Basics :
 
-* R comments start with #
+* R comments start with `#`
 * Use text editor and beware of ”smart quotes”
 * To get help about anything use `?`: `?seq` will show you the manual to  use the function `seq` (a function which generates sequences of numbers)
 * To assign a value to a variable use the assignment operator `<-`
