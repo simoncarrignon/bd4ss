@@ -2,14 +2,14 @@
 
 This practical session is devoted to exploring a Twitter dataset. We pick up from whenerver you left off last week (different people got to different points), so the instructions below start back from the beginning.
 
-## Exploring Twitter dataset
+## Introduction
 
-## Objectives of this lab
+### Objectives of this lab
 This tutorial will cover the following:
 - Analyze Twitter data – from an archived dataset
 - If you want to access Twitter API yourself (not required), you’ll need your Twitter account (see below).
 
-## Background to Twitter dataset
+### Background to Twitter dataset
 
 In 2017, the U.S. House of Representatives Select committee identified several thousand Twitter accounts linked
 to the Internet Research Agency (IRA) in Moscow. These Twitter data were released by NBC news in 2017, and
@@ -17,17 +17,17 @@ subsequently a more complete version was put together by Clemson University: abo
 from June 2015 through the end of the year 2017. In today’s practice session, we make use of the NBC dataset,
 which is smaller and easier to work with, whereas for your Assignment 2 you will be using the Clemson dataset.
 
-## Step 1: get the data
+### Step 1: get the data
 
 Download the CSV file: `streamlined_tweets.csv`
 - This CSV file is available on the Pages section of Canvas, or click on the relevant link on the syllabus.
 - Save this CSV to your R working directory (tip: put it in a subfolder `data/` in you working directory ).
 
-## Step 2: Basic analysis and data formatting in R
+### Step 2: Basic analysis and data formatting in R
 
 On the next sections we presents R commands that allow you to graph the number of tweets through time. In subsequent weeks we will do more with the Twitter data, such as count in all the tweets highlighting the top ten words, and explore sentiment analysis in the tweets, and more.
 
-## Optional Step: Apply for Twitter Developer account
+### Optional Step: Apply for Twitter Developer account
 
 If you want to create and analyze your own Twitter data (NOT required to complete Assignment 2), you’ll need a Twitter Developer account. This will give you the keys (four, massively long unique text strings) to access the Twitter API in R, through the twitteR package. To do this, go here:
 https://developer.twitter.com/en/apply-for-access
