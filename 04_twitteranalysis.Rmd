@@ -105,25 +105,32 @@ ungroup() %>% filter(tweets >= 1) %>% ggplot(aes(as.Date(hour), percent)) + geom
 
 Cumulative:
 
-```{r}
+```{r,eval=F}
 tweets_dated %>% filter(!str_detect(Tweet, "^(\"|RT)")) %>% group_by(hour = round_date(Date, "hour")) %>%
 summarize(tweets = n(), hashtag = sum(str_detect(str_to_lower(Tweet), "schiff")), percent = hashtag / tweets)%>% ungroup() %>% filter(tweets >= 1) %>% ggplot(aes(as.Date(hour), cumsum(percent))) + geom_line() +
 geom_point()
 ```
 
-Might want to do this with re-Tweets included? How about a raw count rather than as %?ADD PLOT LABELS
+Might want to do this with re-Tweets included? How about a raw count rather than a percentage ?
+
+## ADD PLOT LABELS
 add to ggplot portion
 
-```{r}
+```{r,eval=F}
 + labs(x = "X label", y = "Y label")
 ```
 
 ## ADD LINE AT PARTICULAR DATE
 
-```{r}
+```{r,eval=F}
 + geom_vline(xintercept = as.integer(as.Date("2011-04-30")), color = "red", lty = 2)
-REMOVE UNWANTED CONTENT (INCLUDING RETWEETS) FROM DATAFRAME
-Note tidy_tweets1 is just a transient dataframe for producing tidy_tweets in the next step
+```
+
+## REMOVE UNWANTED CONTENT (INCLUDING RETWEETS) FROM DATAFRAME
+
+Note `tidy_tweets1` is just a transient dataframe for producing `tidy_tweets` in the next step
+
+```{r}
 replace_reg <- "https://t.co/[A-Za-z\\d]+|http://[A-Za-z\\d]+|&amp;|&lt;|&gt;|RT|https"
 unnest_reg <- "([^A-Za-z_\\d#@']|'(?![A-Za-z_\\d#@]))"
 tidy_tweets1 <- tweets_dated %>% filter(!str_detect(Tweet, "^RT")) %>% mutate(Tweet =
@@ -144,13 +151,13 @@ filter(!word %in% stop_words$word, str_detect(word, "[a-z]"))
 
 Quick view
 
-```{r}
+```{r,eval=F}
 tidy_tweets %>% count(word, sort = TRUE)
 ```
 
 Or make dataframe
 
-```{r}
+```{r,eval=F}
 most_common <- tidy_tweets %>% count(word, sort = TRUE)
 View(most_common)
 ```
@@ -159,14 +166,18 @@ View(most_common)
 
 ```{r}
 time_span_1 <- tidy_tweets %>% filter(Date >= "2016-07-21", Date < "2016-11-08")
-GET DATAFRAME OF INDIVIDUAL WORD (SORT BY DATE)
+```
+
+## GET DATAFRAME OF INDIVIDUAL WORD (SORT BY DATE)
+
+```{r,eval=F}
 hillary <- tidy_tweets %>% filter(str_detect(word, "hillary"))
 hillary_sorted <- tidy_tweets %>% filter(str_detect(word, "hillary")) %>% count(Date, sort = TRUE)
 ```
 
 ## RANK-FREQUENCY PLOTS
 
-```{r}
+```{r,eval=F}
 freq_by_rank <- tidy_tweets %>% count(word, sort = TRUE) %>% mutate(rank = row_number())
 freq_by_rank %>% mutate(rank=row_number())
 ggplot(data = freq_by_rank) + geom_point(aes(x=rank, y=n))
@@ -176,12 +187,17 @@ ggplot() + geom_point(data = rank_subset, aes(x = rank, y = n), color = "red") +
 rank_subset_election, aes(x = rank, y = n), color = "blue")
 ```
 
-BIN AND COUNT WORDS PER DAY
+## BIN AND COUNT WORDS PER DAY
 
-```{r}
+```{r,eval=F}
 daily_tweet <- tidy_tweets %>% mutate(tweetDay = floor_date(Date, "day"))
-wordsPerDay <- count(daily_tweet, tweetDay)SENTIMENTS
-tweet_sentiment <- tidy_tweets %>% inner_join(nrc) %>% count(index = Date, sentiment) %>%
+wordsPerDay <- count(daily_tweet, tweetDay)
+```
+
+## SENTIMENTS
+
+```{r,eval=F}
+tweet_sentiment <- tidy_tweets %>% inner_join(nrcjoy) %>% count(index = Date, sentiment) %>%
 spread(sentiment, n, fill = 0)
 ```
 
@@ -194,7 +210,7 @@ filter(sentiment == "joy")
 
 repeat for anger, fear, disgust, surprise, sadness, anticipation, trust, positive, negative
 
-```{r}
+```{r,eval=F}
 tidy_tweets %>%
 inner_join(nrcjoy) %>%
 count(word, sort = TRUE)
@@ -205,25 +221,25 @@ Suggestion: compare top emotion words for different time spans (see “New dataf
 ## PLOT CUMULATIVE SENTIMENT
 e.g., trust
 
-```{r}
+```{r,eval=F}
 tweet_sentiment %>% ggplot(aes(x=as.Date(index), y=cumsum(trust))) + geom_line()
 ```
 
 e.g., anger versus fear
 
-```{r}
-tweet_sentiment %>% ggplot(aes(x=as.Date(index), y=cumsum(anger-fear))) + geom_line()
+```{r,eval=F}
+joytweet_sentiment %>% ggplot(aes(x=as.Date(index), y=cumsum(anger-fear))) + geom_line()
 ```
 
 e.g., positive versus negative
 
-```{r}
+```{r,eval=F}
 tweet_sentiment %>% ggplot(aes(x=as.Date(index), y=cumsum(positive-negative))) + geom_line()
 ```
 
 ## PLOT NORMALIZED SENTIMENTS OVER TIME
 
-```{r}
+```{r,eval=F}
 electionSentiment <- daily_tweet %>% inner_join(nrc) %>% count(index = tweetDay, sentiment) %>%
 spread(sentiment, n, fill = 0)
 colnames(electionSentiment)[colnames(electionSentiment)=="index"] <- "tweetDay"
@@ -232,13 +248,13 @@ SentimentsPerDay <- inner_join(electionSentiment, wordsPerDay)
 
 e.g., positive
 
-```{r}
+```{r,eval=F}
 ggplot(data = SentimentsPerDay, aes(x=tweetDay, y=(positive/n))) + geom_line()
 ```
 
 e.g., positive versus negative, cumulative
 
-```{r}
+```{r,eval=F}
 ggplot(data = SentimentsPerDay, aes(x=tweetDay, y=cumsum(((negative-positive)/n)))) + geom_line()
 ```
 
@@ -253,7 +269,7 @@ library(lubridate)
 
 ## RETRIEVE DATA FROM TRUMP TWITTER ARCHIVE
 
-```{r}
+```{r,eval=F}
 url <- 'http://www.trumptwitterarchive.com/data/realdonaldtrump/%s.json'
 #Create dataframe with all the tweets
 all_tweets <- map(2009:2017, ~sprintf(url, .x)) %>%
@@ -309,7 +325,7 @@ percent_mentioned <- mean(between$obama)
 
 ## WORD COUNTS
 
-```{r}
+```{r,eval=F}
 #Create new dataframe of word counts
 all_tweet_words <- all_tweets %>%
 mutate(text = str_replace_all(text, "https?://t.co/[A-Za-z\\d]+|&amp;", "")) %>%
@@ -353,7 +369,7 @@ geom_line() + labs(x = "Time", y = "Median # of retweets")
 ## EXTRA: GETTING NEW TWEETS FROM THE API
 
 
-```{r}
+```{r,eval=F}
 # OPTIONAL: If you have a Twitter Developer Account, here you enter your specific account keys, in quotes:
 setup_twitter_oauth(getOption("twitter_consumer_key"), getOption("twitter_consumer_secret"),
 getOption("twitter_access_token"), getOption("twitter_access_token_secret")
