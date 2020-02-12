@@ -39,11 +39,10 @@ The process will eventually deliver you own four unique codes, which are called 
 
 ### PACKAGES
 
+On top of the tidyverse package we will need more of them:
 ```{r}
 library(tidytext)
 library(lubridate)
-library(stringr)
-library(tidyr)
 ```
 
 ### LOAD DATA SET (CHOOSE ONE) 
@@ -293,12 +292,6 @@ ggplot(data = SentimentsPerDay, aes(x=tweetDay, y=cumsum(((negative-positive)/n)
 
 ## TRUMP TWEETS:
 
-
-```{r}
-library(tidytext)
-library (tidyverse)
-library(lubridate)
-```
 
 ### RETRIEVE DATA FROM TRUMP TWITTER ARCHIVE
 
