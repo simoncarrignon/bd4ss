@@ -12,3 +12,17 @@ and don't forget to update reading right:
 ```bash
 chmod -R a+r ~/public_html/bd5ss/
 ```
+
+presentation:
+
+using 
+```r
+install.packages('xaringan')
+```
+
+compile:
+
+```r
+rmardown::render("05_network.Rmd")
+```
+
