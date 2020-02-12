@@ -172,10 +172,10 @@ library(twitteR)
 
 ```{r, include=F,eval=F,echo=FALSE}
 #to get your consumerKey and consumerSecret see the twitteR documentation for instructions
-consumer_key <- 'sHpzxLvtUar6TiQ4kBVsOnFFg'
-consumer_secret <- 'Rf6uBiU9KAdGy6i1Vq9J52aCsDvQbb7IheL13MZMqDr7EI2lWL'
-access_token <- '1171319695-6XxSMofnmLtnhXnlVXisVPw4v64smQjzdL8cygZ'
-access_secret <- '6cbJ99RinAm6UyP8g6S5RjzmANio3DgfVKLyREVuim1wP'
+consumer_key <- 'y6MIrO42nhoTXUCu0pNfqHFzO'
+consumer_secret <- 'Pox03uDySk72Jl9bfJtDJ6bAUaWz0POKbA28W8WQwiX3hNUdFo'
+access_token <- '1171319695-Zv9qKxLeM3k4508nfw2alaooSu27DaHtnqo8n6r'
+access_secret <- 'cwy6OWGy6m7vyuDphZPtv6puOs5mjjMS8LFeJhLfXG9TD'
 setup_twitter_oauth(consumer_key,
                     consumer_secret,
                     access_token,
