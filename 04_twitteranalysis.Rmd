@@ -549,10 +549,10 @@ You will then need to retrieve your keys and generate token to interact with the
 
 ```{r, include=F,eval=F,echo=FALSE}
 #to get your consumerKey and consumerSecret see the twitteR documentation for instructions
-consumer_key <- 'sHpzxLvtUar6TiQ4kBVsOnFFg'
-consumer_secret <- 'Rf6uBiU9KAdGy6i1Vq9J52aCsDvQbb7IheL13MZMqDr7EI2lWL'
-access_token <- '1171319695-6XxSMofnmLtnhXnlVXisVPw4v64smQjzdL8cygZ'
-access_secret <- '6cbJ99RinAm6UyP8g6S5RjzmANio3DgfVKLyREVuim1wP'
+consumer_key <- 'y6MIrO42nhoTXUCu0pNfqHFzO'
+consumer_secret <- 'Pox03uDySk72Jl9bfJtDJ6bAUaWz0POKbA28W8WQwiX3hNUdFo'
+access_token <- '1171319695-AuUDqsFLGVI17oCCTQAcYdDHxDzMOIOjAw1x4tF'
+access_secret <- '37X5DHtz5JoeBUiDfi7Gv3WEAEahvqg1ZhPrau7Ko0tmK'
 setup_twitter_oauth(consumer_key,
                     consumer_secret,
                     access_token,
@@ -577,8 +577,12 @@ With all this you should be able to interact with twitter directly from R and re
 
 1. We needed to get some tweets:
 
-```{r}
+```{r,eval=F}
 my_tweets <- userTimeline("SimonCarrignon", n = 3200,includeRts=FALSE) #note that I don't include the retweets by using `includeRts=FALSE`
+```
+
+```{r,echo=F}
+load("data/my_tweet.bin")
 ```
 
 To do the sentiments analysis as we did before we have to transform the data as we used `data.frame`, `twitteR` allows us to do this by using `twListToDF`:
@@ -665,7 +669,14 @@ tweet_sentiment %>% ggplot(aes(x=as.Date(index), y=cumsum(anger-fear))) + geom_l
 e.g., positive versus negative
 
 ```{r}
-tweet_sentiment %>% ggplot(aes(x=as.Date(index), y=cumsum(positive-negative))) + geom_line() 
+tweet_sentiment %>% ggplot(aes(x=as.Date(index), y=cumsum(positive-negative))) + geom_line()
 ```
-(Note that I  defended my PhD on the 11th of November 2019, you may want to add a line to see)
+
+Note that I  defended my PhD on the 11th of November 2019 so we can see if it had an impact:
+
+```{r}
+tweet_sentiment %>% ggplot(aes(x=as.Date(index), y=cumsum(positive-negative))) + geom_line()  +
+    geom_vline(xintercept = as.integer(as.Date("2019-11-11")), color = "red", lty = 2)
+```
+
 
