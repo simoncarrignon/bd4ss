@@ -176,7 +176,7 @@ Or store it in a dataframe
 
 ```{r}
 most_common <- tidy_tweets %>% count(word, sort = TRUE)
-View(most_common)
+head(most_common)
 ```
 
 ### NEW DATAFRAME FOR SPECIFIC TIME SPAN
@@ -453,7 +453,7 @@ ggplot(aes(month, average_sentiment)) + geom_line()# Add labels to plot
 line = 'neutral' sentiment.")
 title = "@realDonaldTrump sentiment", subtitle = "Dashed
 ## look at your dataframe
-View(tweet_words)
+head(tweet_words)
 ## What words tend to be re-tweeted? Count first
 word_summary <- tweet_words %>%
 group_by(word) %>%
