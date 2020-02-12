@@ -58,7 +58,7 @@ tweets <- read.csv("data/streamlined_tweets.csv")
 ### LOOK AT DATAFRAME
 ```{r}
 head(tweets)
-View(tweets)
+tbl_df(tweets)
 ```
 ### FORMAT TIME STAMPS
 
@@ -66,6 +66,8 @@ NBC:
 
 ```{r}
 tweets_dated <- tweets %>% mutate(Date = mdy_hm(Date))
+## note that after this we wont need anymore the dataframe `tweets` so I suggest you to remove it:
+rm(tweets)
 ```
 ### PLOT VOLUME OF TWEETS OVER TIME
 
@@ -143,7 +145,7 @@ geom_vline(xintercept = as.integer(as.Date("2016-04-30")), color = "red", lty = 
 labs(x = "X label", y = "Y label")
 ```
 
-### REMOVE UNWANTED CONTENT (INCLUDING RETWEETS) FROM DATAFRAME
+### REMOVE UNWANTED CONTENT (INCLUDING RETWEETS) FROM DATAFRAME {#parsing}
 
 Note `tidy_tweets1` is just a transient dataframe for producing `tidy_tweets` in the next step
 
@@ -157,6 +159,7 @@ str_replace_all(Tweet, replace_reg, ""))
 ### TIDY DATA INTO ONE WORD PER ROW
 
 Note this step may take a while for a very large dataset.
+
 
 ```{r}
 tidy_tweets <- tidy_tweets1 %>% unnest_tokens(word, Tweet, token = "regex", pattern = unnest_reg) %>%
@@ -482,11 +485,52 @@ ggplot(aes(month, median_retweets)) +
 geom_line() + labs(x = "Time", y = "Median # of retweets")
 ```
 
-## EXTRA: GETTING NEW TWEETS FROM THE API
+## EXTRA: Using Twitter API to retrieve tweets.
+
+
+To interact with twitter's API we use the package `twitteR`. Note that other, more up to daat epackage exist (`rtweets`).
+
+```{r}
+install.packages("twitteR")
+library(twitteR)
+```
+
+But before being able to use this package to play with twitter a couple of things need to be done:
+
+### Creating a Twitter App
+
+- To create a Twitter app, you will first need to apply for a developer account. To do so you can go to: [developer.twitter.com/en/apply-for-access](https://developer.twitter.com/en/apply-for-access).
+   - You will be asked to choose an account type, choose a student
+   <p align="center"><img src="images/apply-dev-1.png" alt="apply-dev-1"></p>
+   - Be carefull that you will need a valid phone number to verify your account. Then choose a country and a name for your developper account and clic next
+   <p align="center"><img src="images/apply-dev-2.png" alt="apply-dev-2"></p>
+   - You will then need to justify why you need your account for. "For the class "Big Data for Social Scientist, at the University of Tennessee Knoxville, we want to create an app to interact with the twitter API.  This will allow us  to generate and explore a simple data set, and learn about methods to do so with R."
+   <p align="center"><img src="images/apply-dev-3.png" alt="apply-dev-3"></p>
+   - You can then uncheck allspecifics and set them has "NO" as below and clic next.
+   <p align="center"><img src="images/apply-dev-4.png" alt="apply-dev-4"></p>
+   - Verify the information and you and validaidates by clicking on `Looks good!`.
+   - Tick the box to accept the Developer Agreement and click on `Submit Application`.
+   <p align="center"><img src="images/apply-dev-5.png" alt="apply-dev-4"></p>
+   - You will be asked to confirm your email once you have done so you should be able to create a an app.
+- Once you have acquired a developer account, navigate to [developer.twitter.com/en/apps](https://developer.twitter.com/en/apps/), click the blue button that says, `Create a New App`, and then complete the form with the following fields:
+   - `App Name`: What your app will be called
+   - `Application Description`: How your app will be described to its users
+   <p align="center"><img src="images/create-app-1.png" alt="create-app-1"></p>
+   - `Website URLs`: Website associated with app–I recommend using the URL to your Twitter profile
+   <p align="center"><img src="images/create-app-2.png" alt="create-app-2"></p>
+   - `Tell us how this app will be used`: you can copy past the text you use previously 
+   <p align="center"><img src="images/create-app-3.png" alt="create-app-3"></p>
+- When you've completed the required form fields, click the blue `Create` button at the bottom
+- Read through and indicate whether you accept the developer terms
+   <p align="center"><img src="images/create-app-4.png" alt="create-app-4"></p>
+- And you're done!
+   <p align="center"><img src="images/create-app-5.png" alt="create-app-5"></p>
+
+
 
 
 ```{r,eval=F}
-## OPTIONAL: If you have a Twitter Developer Account, here you enter your specific account keys, in quotes:
+library(twitteR)
 setup_twitter_oauth(getOption("twitter_consumer_key"), getOption("twitter_consumer_secret"),
 getOption("twitter_access_token"), getOption("twitter_access_token_secret")
 ## We can request only 3200 tweets at a time
@@ -494,4 +538,141 @@ trump_tweets <- userTimeline("realDonaldTrump", n = 3200)
 trump_tweets_df <- tbl_df(map_df(trump_tweets, as.data.frame))
 ```
 
+### Authorization 
+
+You will then need to retrieve your keys and generate token to interact with the API:
+
+- Navigate to [developer.twitter.com/en/apps](https://developer.twitter.com/en/apps) and select your Twitter app
+- Click the tab labeled `Keys and tokens` to retrieve your keys.
+- Locate the `Consumer API keys` (aka "API Secret").
+
+<p align="center"><img src="images/create-app-6.png" alt="create-app-6"></p>
+
+- Scroll down to `Access token & access token secret` and click `Create`
+
+<p align="center"><img src="images/create-app-7.png" alt="create-app-7"></p>
+
+- Copy and paste the four keys (along with the name of your app) into an R script file and pass them along to `create_token()`.
+
+```{r, include=F,eval=F,echo=FALSE}
+#to get your consumerKey and consumerSecret see the twitteR documentation for instructions
+consumer_key <- 'sHpzxLvtUar6TiQ4kBVsOnFFg'
+consumer_secret <- 'Rf6uBiU9KAdGy6i1Vq9J52aCsDvQbb7IheL13MZMqDr7EI2lWL'
+access_token <- '1171319695-6XxSMofnmLtnhXnlVXisVPw4v64smQjzdL8cygZ'
+access_secret <- '6cbJ99RinAm6UyP8g6S5RjzmANio3DgfVKLyREVuim1wP'
+setup_twitter_oauth(consumer_key,
+                    consumer_secret,
+                    access_token,
+                    access_secret)
+```
+
+```{r ,eval=FALSE}
+#to get your consumerKey and consumerSecret see the twitteR documentation for instructions
+consumer_key <- 'your key'
+consumer_secret <- 'your secret'
+access_token <- 'your access token'
+access_secret <- 'your access secret'
+setup_twitter_oauth(consumer_key,
+                    consumer_secret,
+                    access_token,
+                    access_secret)
+```
+
+With all this you should be able to interact with twitter directly from R and redo some of the analysis we did before, shuch the  one in [SENTIMENT] with your own data. Let's try it account.
+
+#### Sentiment reboot
+
+1. We needed to get some tweets:
+
+```{r}
+my_tweets <- userTimeline("SimonCarrignon", n = 3200,includeRts=FALSE) #note that I don't include the retweets by using `includeRts=FALSE`
+```
+
+To do the sentiments analysis as we did before we have to transform the data as we used `data.frame`, `twitteR` allows us to do this by using `twListToDF`:
+
+```{r}
+my_tweets <- twListToDF(my_tweets)
+```
+
+Nonetheless the field of the data frame are not be exactly the same that the one we used before:
+
+```{r,eval=F}
+head(my_tweets)
+```
+
+```{r,echo=F}
+knitr::kable(head(my_tweets))
+```
+
+While previous data: 
+
+```{r,eval=F}
+head(tweets)
+```
+```{r,echo=F}
+knitr::kable(head(tweets))
+```
+
+
+We can mutate them to change this:
+
+```{r}
+tweets_dated <- my_tweets %>% mutate(Date = created,Tweet=text,Twitter_Name=screenName) %>% select(Twitter_Name,Date,Tweet)
+```
+
+Now our new dataset should look simpler:
+
+```{r,eval=F}
+head(tweets_dated)
+```
+
+```{r,echo=F}
+knitr::kable(head(tweets_dated))
+```
+We can apply the various function we applied in section [PARSING]
+
+```{r}
+replace_reg <- "https://t.co/[A-Za-z\\d]+|http://[A-Za-z\\d]+|&amp;|&lt;|&gt;|RT|https"
+unnest_reg <- "([^A-Za-z_\\d#@']|'(?![A-Za-z_\\d#@]))"
+
+tidy_tweets1 <- tweets_dated %>% filter(!str_detect(Tweet, "^RT")) %>% 
+    mutate(Tweet = str_replace_all(Tweet, replace_reg, ""))
+tidy_tweets <- tidy_tweets1 %>% unnest_tokens(word, Tweet, token = "regex", pattern = unnest_reg) %>%
+    filter(!word %in% stop_words$word, str_detect(word, "[a-z]"))
+```
+
+Now we have a dataset with words in my timeline and there apparition in time:
+```{r,eval=F}
+head(tidy_tweets)
+```
+```{r,echo=F}
+knitr::kable(head(tidy_tweets))
+```
+
+We can then redo the sentiment matrix we did before:
+( you may have to load `nrc`  if you haven't done it yet: `nrc <-get_sentiments("nrc")`)
+
+```{r}
+tweet_sentiment <- tidy_tweets %>% inner_join(nrc) %>% count(index = Date, sentiment) %>%
+spread(sentiment, n, fill = 0)
+```
+
+And we can start to play with visualisation as we did before: 
+
+```{r}
+tweet_sentiment %>% ggplot(aes(x=as.Date(index), y=cumsum(positive))) + geom_line()
+```
+
+e.g., anger versus fear
+
+```{r}
+tweet_sentiment %>% ggplot(aes(x=as.Date(index), y=cumsum(anger-fear))) + geom_line()
+```
+
+e.g., positive versus negative
+
+```{r}
+tweet_sentiment %>% ggplot(aes(x=as.Date(index), y=cumsum(positive-negative))) + geom_line() 
+```
+(Note that I  defended my PhD on the 11th of November 2019, you may want to add a line to see)
 
