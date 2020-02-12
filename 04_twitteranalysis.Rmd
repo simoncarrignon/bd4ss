@@ -65,8 +65,6 @@ NBC:
 
 ```{r}
 tweets_dated <- tweets %>% mutate(Date = mdy_hm(Date))
-## note that after this we wont need anymore the dataframe `tweets` so I suggest you to remove it:
-rm(tweets)
 ```
 ### PLOT VOLUME OF TWEETS OVER TIME
 
@@ -678,5 +676,4 @@ Note that I  defended my PhD on the 11th of November 2019 so we can see if it ha
 tweet_sentiment %>% ggplot(aes(x=as.Date(index), y=cumsum(positive-negative))) + geom_line()  +
     geom_vline(xintercept = as.integer(as.Date("2019-11-11")), color = "red", lty = 2)
 ```
-
 
