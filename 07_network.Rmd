@@ -1,0 +1,583 @@
+# Network Analysis Lab
+
+In this session we will analyse networks
+
+##  Introduction
+
+### Objectives
+
+Know how to manipulate graphs with IGRAPH and generate/look for new datasets
+
+### The igraph package
+
+Throughout this session we will use the package igraph to do our analysis
+
+```{r}
+library(igraph)
+```
+
+There are plenty of other well known packages and program to do so such as:
+
+- [networkx](https://networkx.github.io/): in python package
+- [Gephi](https://gephi.org/) a powerful and intuitive graphical interface 
+
+
+
+
+## Different Types of networks
+
+It exists different types of "graphs", all are easy to handle with igraph
+
+### Trees 
+
+A tree is a directed graph with no loops. When no root is chose they are usually represented like this:
+
+```{r tree_unrooted,fig.caption="A tree made by 40 nodes, each node having maximum 3 children"}
+tr <-make_tree(40,children=3,mode="undirected")
+plot(tr)
+```
+
+A tree is a directed graph with no loops. But more often, a root is chosen, which will be use at the `top` of the `tree` (the `root` of  a rotated `tree`).
+
+```{r tree_rooted,fig.show="hide"}
+tr <-make_tree(40,children=3,mode="undirected")
+plot(tr,layout=layout_as_tree(tr,root=1))
+```
+![](`r knitr::fig_chunk("tree_rooted","png")`)
+
+
+### Full graph
+
+A full graph is a graph where all nodes are connected
+
+```{r fullgraph}
+fg <-make_full_graph(40)
+plot(fg)
+```
+Generate a 40 nodes graph where each node is fully connected.
+
+We ca measure various metris on this graph:
+
+#### Degree (of each nodes, and the mean degree)
+
+```{r}
+degree(fg)
+
+mean(degree(fg))
+```
+#### Short path 
+For one node:
+```{r }
+sp12=shortest_paths(fg,1,2)
+print(sp12$vpath[[1]])
+```
+For a another node
+
+```{r }
+sp1020=shortest_paths(fg,10,20)
+print(sp1020$vpath[[1]])
+```
+
+Visualize it in the graph:
+```{r }
+E(fg,path=sp12$vpath[[1]])$color="blue"
+plot(fg)
+```
+
+```{r }
+E(fg,path=sp1020$vpath[[1]])$color="red"
+plot(fg)
+```
+
+
+### Small-world 
+
+Watts-Strogatz model creates a lattice (with `dim` dimensions and `size` nodes across dimension) and rewires edges randomly with probability `p`. The neighborhood in which edges are connected is `nei`. You can allow `loops` and `multiple` edges.
+
+```{r smallworld,fig.show="hide"}
+sw <- sample_smallworld(dim=2, size=6, nei=1, p=0.1)
+plot(sw, vertex.size=6, vertex.label=NA, layout=layout_in_circle)
+
+degree(sw)
+
+mean(degree(sw))
+```
+
+A `r length(V(sw))` nodes graph connected as a "small world".
+
+![](`r knitr::fig_chunk("smallworld","png")`)
+
+
+```{r}
+sp112=shortest_paths(sw,1,12)
+print(sp112$vpath[[1]])
+E(sw,path=sp112$vpath[[1]])$color="red"
+plot(sw, vertex.size=2, layout=layout_in_circle)
+```
+
+```{r}
+sp534=shortest_paths(sw,5,34)
+print(sp534$vpath[[1]])
+E(sw,path=sp534$vpath[[1]])$color="blue"
+plot(sw, vertex.size=2, layout=layout_in_circle)
+```
+
+
+
+### Scale-free graphs
+
+Using Barabasi-Albert preferential attachment model
+(`n` is number of nodes, `power` is the power of attachment (`1` is linear); `m` is the number of edges added on each time step)
+
+
+```{r scalefree,fig.show="hide"}
+ ba <-  sample_pa(n=100, power=1, m=1,  directed=F)
+ plot(ba, vertex.size=6, vertex.label=NA)
+```
+
+![](`r knitr::fig_chunk("scalefree","png")`) 
+
+```{r}
+degree(ba)
+mean(degree(ba))
+```
+
+
+```{r}
+sp162=shortest_paths(ba,1,62)
+print(sp162$vpath[[1]])
+E(ba,path=sp162$vpath[[1]])$color="red"
+plot(ba, vertex.size=2)
+```
+
+```{r}
+sp8034=shortest_paths(ba,80,34)
+print(sp8034$vpath[[1]])
+E(ba,path=sp8034$vpath[[1]])$color="blue"
+plot(ba, vertex.size=2)
+```
+
+What is the main difference between those scale free network and the small world networks?
+
+
+
+## The Zachary's Karate Club
+
+Links between 34 members of a karate club. Given the club's small size, each club member knew
+everyone else. Sociologist Wayne Zachary documented 78 pairwise links  between members who regularly interacted outside the club.
+
+The original paper can be found here: https://www.journals.uchicago.edu/doi/abs/11.1087/jar.33.4.3629752
+
+```{r image_grobs, fig.show = "hold", out.width = "50%", fig.align = "default",echo=F}
+knitr::include_graphics("images/zacharymatrice.png")
+knitr::include_graphics("images/zacharynetwork.png")
+
+```
+
+Conflit and split:
+
+- A conflict between the club’s president and the instructor split the club into two.
+- About half of the members followed the instructor ad the other half the president, a breakup that
+unveiled the ground truth, representing club's underlying community structure.
+- Today community finding algorithms are often tested based on their ability to infer these two communities from the structure of the network before the split.
+
+<img src="images/zacharyoutput.png" alt="drawing" style="width:45%;"/>
+
+
+### The club of Zachary's karate club
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">This is the icing on the cake! I received the Zachary Karate Club Club trophy 🏆 for my talk in <a href="https://twitter.com/MscxNetworks?ref_src=twsrc%5Etfw">@MscxNetworks</a>! Thank you <a href="https://twitter.com/PiratePeel?ref_src=twsrc%5Etfw">@PiratePeel</a> for carrying it with you to Salina! <a href="https://t.co/153e3LBU9W">pic.twitter.com/153e3LBU9W</a></p>&mdash; Clara GM (@claragranell) <a href="https://twitter.com/claragranell/status/1038022679545176064?ref_src=twsrc%5Etfw">September 7, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Congrats <a href="https://twitter.com/fede7j?ref_src=twsrc%5Etfw">@fede7j</a> , new recipient of the most prestigious prize in net science: the Zachary karate club <a href="https://twitter.com/hashtag/CCS16?src=hash&amp;ref_src=twsrc%5Etfw">#CCS16</a> <a href="https://t.co/7Q4yGQ6VAT">pic.twitter.com/7Q4yGQ6VAT</a></p>&mdash; Manlio De Domenico (@manlius84) <a href="https://twitter.com/manlius84/status/778130905470734336?ref_src=twsrc%5Etfw">September 20, 2016</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+### Visualise the network
+
+To fix the way network will be displayed we can use `igraph`   "layout"
+```{r , echo=F}
+par(mar=rep(0,4))
+```
+
+```{r, zachary1,fig.show="hide"}
+lay=layout_with_fr(zach)
+zach <- make_graph("Zachary")
+plot(zach,vertex.size=30,layout=lay,xlim=range(lay[,1]),ylim=range(lay[,2]),rescale=F)
+```
+
+![](`r knitr::fig_chunk("zachary1","png")`)
+
+
+
+### Who are  the 'important' nodes? 
+
+How can we know, by looking at the network, who are the important nodes?
+
+* Degree of the nodes
+```{r degree}
+degree(zach)
+```
+
+```{r plotdegree,echo=F,fig.show="hide"}
+dgre=degree(zach)
+V(zach)$color=dgre
+zach$palette=rev(colorRampPalette(c("red","blue"))(max(dgre)))
+plot(zach,vertex.size=degree(zach)/sum(degree(zach))*200,layout=lay,xlim=range(lay[,1]),ylim=range(lay[,2]),rescale=F)
+
+zach <- make_graph("Zachary")
+```
+
+![](`r knitr::fig_chunk("plotdegree","png")`)
+
+* betweenness centrality: number of shortest paths through a vertex
+
+Cutoff: maximum path length to consider when calculating betweenness.
+
+```{r }
+betweenness.estimate(zach,cutoff=3)
+```
+
+```{r plotbetweeness3,fig.show="hide"}
+btw=betweenness.estimate(zach,cutoff=3)
+plot(zach,vertex.size=30,layout=lay,rescale=F,xlim=range(lay[,1]),ylim=range(lay[,2]))
+```
+
+![](`r knitr::fig_chunk("plotbetweeness3","png")`)
+
+```{r }
+betweenness.estimate(zach,cutoff=3)
+```
+
+```{r plotbetweeness2,fig.show="hide"}
+btw=betweenness.estimate(zach,cutoff=3)
+plot(zach,vertex.size=btw/sum(btw)*300,layout=lay,xlim=range(lay[,1]),ylim=range(lay[,2]),rescale=F)
+
+```
+
+![](`r knitr::fig_chunk("plotbetweeness2","png")`)
+
+
+```{r betweeness}
+betweenness.estimate(zach,cutoff=3)
+```
+
+```{r plotbetweeness,,fig.show="hide"}
+btw=betweenness.estimate(zach,cutoff=3)
+V(zach)$color=btw
+zach$palette=rev(colorRampPalette(c("red","blue"))(max(btw)))
+plot(zach,vertex.size=btw/sum(btw)*300,layout=lay,xlim=range(lay[,1]),ylim=range(lay[,2]),rescale=F)
+
+zach <- make_graph("Zachary")
+```
+
+![](`r knitr::fig_chunk("plotbetweeness","png")`)
+
+
+
+### Layout 
+
+To adjust network visualisation `igraph`  use "layout", some layout are more usefull than other
+
+
+```{r lgl,fig.show="hide"}
+plot(zach, layout=layout_with_lgl)
+```
+
+![](`r knitr::fig_chunk("lgl","png")`)
+
+
+```{r lgl1,fig.show="hide"}
+plot(zach, layout=layout_with_lgl(zach,root=1))
+```
+
+![](`r knitr::fig_chunk("lgl1","png")`)
+
+The LGL algorithm is meant for large, connected graphs. Can specify a root node to be placed in the middle.
+You can use other layouts (more info:https://igraph.org/c/doc/igraph-Layout.html):
+
+```{r}
+g <- barabasi.game(500, directed=F)
+layout <- layout.lgl(g)
+plot(g, layout=layout,vertex.size=2,vertex.label=NA)
+```
+
+### Quantitative analysis 
+
+* Analyse Degree 
+
+```{r}
+ deg <- degree(zach)
+hist(deg, breaks=1:vcount(zach)-1, main="Histogram of node degree: Zach")
+```
+
+* Community Detection
+Community detection based on edge betweenness: High-betweenness edges are removed sequentially (recalculating at each step) and the best partitioning of the network is selected.
+
+```{r}
+ ceb <- cluster_edge_betweenness(zach)
+ dendPlot(ceb, mode="hclust")
+```
+
+
+Visualize results:
+
+```{r}
+plot(ceb,zach)
+```
+
+
+
+## Real Case Exercices:
+
+Redo all previous exercices but with different networks.  
+
+* On recent tools to search for new dataset has been setup by google: https://datasetsearch.research.google.com (on your own)
+* Another one specialised on networks: http://networkrepository.com/ for exemple : soc-tribes (which describes the data from this paper: https://www.journals.uchicago.edu/doi/pdfplus/10.1086/soutjanth.10.1.3629074) (go [here](#soctribes))
+* Using `rtweet`  to collect data (go [here](#rtweet))
+
+
+###  Soc-tribes dataset{#soctribes}
+
+`Soc-tribes` (found here:http://networkrepository.com/soc-tribes.php),  describes the data from [this paper](https://www.journals.uchicago.edu/doi/pdfplus/10.1086/soutjanth.10.1.3629074)
+
+You can download this particular dataset directly [here](data/soc-tribes.edges) 
+
+Once you have the data set ( in a subfolder called `data/` in my case) you can read it doing:
+```{r}
+soc=read.table("data/soc-tribes.edges")
+```
+
+This is a simple `edgelist`, a standard way to encode network:
+```{r,echo=T,message=F,eval=F}
+soc[1:3,]
+```
+
+```{r,echo=F}
+knitr::kable(soc[1:3,],format="html")
+```
+
+Igraph can easily read it:
+
+```{r socnet,fig.show="hide"}
+soc=graph.data.frame(soc)
+plot(soc)
+```
+
+
+![](`r knitr::fig_chunk("socnet","png")`)
+
+```{r,eval=F,echo=F}
+library(rtweet)
+consumer_key <- 'y6MIrO42nhoTXUCu0pNfqHFzO'
+consumer_secret <- 'Pox03uDySk72Jl9bfJtDJ6bAUaWz0POKbA28W8WQwiX3hNUdFo'
+access_token <- '1171319695-0JePam7aGcpyGD5EtYZp3TnnjqXpBeKoomLmgvf'
+access_secret <- 'R5szPm9apkJL34Cr3rcYEjFjZHEE4caro1d0l8HQ5BZxh'
+token <- create_token(app="anthro-twitter",
+                      consumer_key=consumer_key,
+                      consumer_secret=consumer_secret,
+                      access_token = access_token,
+                      access_secret = access_secret
+                      )
+```
+
+### Create network from twitter{#rtweet}
+
+
+Load `rtweet` library and prepare API access
+(for more information about rtweet visit [rtweet.info](https://rtweet.info))
+
+```{r , eval=F,echo=T}
+library(rtweet)
+consumer_key <- ''
+consumer_secret <- ''
+access_token <- ''
+access_secret <- ''
+token <- create_token(app="appname",
+                      consumer_key=consumer_key,
+                      consumer_secret=consumer_secret,
+                      access_token = access_token,
+                      access_secret = access_secret
+                      )
+```
+
+* If you don't remeber how to setup all this go to [this section of the lab](http://www.nimbios.org/~simon/bd4ss/big-data-lab-february-06-twitter-data.html#extra-using-twitter-api-to-retrieve-tweets.)
+* If you don't want or were not able to set-up your twitter account and still want to play with this dataset you can download it [here](data/networkANTH.csv) and use: `network=read.csv("data/networkATNH.csv")` to load it and then start the analysis
+
+
+#### Create the dataset
+
+
+Collect all tweets :
+```{r,eval=F}
+ourdataset <- search_30day("#ANTHutk2020", n=3000,env_name="dev") 
+```
+
+
+Get all user that participated to the hashtag (we collect people that where quoted etc.. to have more data)
+```{r}
+allactive_users=unique(
+                       c(
+                         ourdataset$user_id, #user active on this hashtag
+                         ourdataset$retweet_user_id, #user who retweeted a tweet with the hashtag
+                         ourdataset$reply_to_user_id, #users who answered to a tweet with the hashtag
+                         unlist(ourdataset$mentions_user_id), #users who where mentionned in a tweet
+                         ourdataset$quoted_user_id #users who where quoted with the hashtag
+                         ) 
+                       )
+allactive_users=allactive_users[!is.na(allactive_users)] #remove NA
+```
+
+Get all followers and all favs for all users (if you want to use another list of user just replace here `allactive_users` by your own list of twitter handles ):
+
+
+```{r ,include=F}
+load("data/all_fav.bin")
+load("data/all_followers.bin")
+```
+
+```{r ,eval=F}
+all_followers=lapply(allactive_users,get_followers)
+all_fav=lapply(allactive_users,get_favorites)
+names(all_fav)=allactive_users
+names(all_followers)=allactive_users
+```
+
+Create an edgelist of who interacted, favs, follows, who:
+
+```{r,message=F,eval=F}
+edgelist=c()
+for(i in allactive_users){
+    for(j in allactive_users[allactive_users != i]){
+        j_fav= all_fav[[j]]
+        favs=sum(i == j_fav$user_id )
+        if(!is.na(favs) & favs>0){
+            edgelist=rbind(edgelist,c(j,i,favs)) #j liked one or more i's tweets
+        }
+        j_folwrs= all_followers[[j]]
+        if(i %in% j_folwrs$user_id ){
+            edgelist=rbind(edgelist,c(i,j,1)) #i is following j
+
+        }
+    }
+    for (t in 1:nrow(ourdataset)){
+        tweet=ourdataset[t,]
+        j=tweet$user_id
+        if( i %in% tweet$retweet_user_id)
+            edgelist=rbind(edgelist,c(j,i,1)) #j retweeted i
+        if( i %in% tweet$reply_to_user_id)
+            edgelist=rbind(edgelist,c(j,i,1)) #j replied to i
+        if( i %in% tweet$quoted_user_id)
+            edgelist=rbind(edgelist,c(j,i,1)) #j quoted i
+    }
+}
+```
+
+
+First we need to transform the edgelist as a dataframe:
+
+```{r}
+edgelist=as.data.frame(edgelist)
+edgelist$V3=as.numeric(edgelist$V3)
+```
+
+
+```{r tab:edge,echo=F}
+knitr::kable(edgelist[1:11,],format="html")
+```
+
+Transform this dataframe as a network:
+
+```{r }
+network=aggregate(edgelist$V3,by=list(source=edgelist$V1,dest=edgelist$V2),sum)
+```
+
+In network we have added the weight for all edges to see who itneract more with who, but we will exagerate those interactions to see them more clearly:
+
+```{r}
+network$x=network$x
+```
+
+
+```{r fig:net,fig.show="hide"}
+anthnetwork=graph.data.frame(network)
+V(anthnetwork)$name = 1:length(V(anthnetwork)) #change ID of nodes
+plot(anthnetwork,edge.width=network$x) #use the sum of interaction to setup width of edges
+```
+
+
+![](`r knitr::fig_chunk("fig:net","png")`)
+
+
+#### Usefull tricks
+
+Something that can be usefull from rtweet:
+
+
+```{r}
+user_info=lookup_users("1171319695")
+```
+
+This will gives you info about the user with id: 1171319695
+you can user: `user_info$screen_name` to get the `screen_name` of this user in this case:
+```{r}
+user_info$screen_name
+```
+This work with list of users id, thus you can try something like: 
+
+```{r, eval=F}
+allusers=lookup_users(listaactivesusers)
+allusers$screen_name
+```
+
+```{r, eval=F,include=F}
+lookup_users(listaactivesusers)
+V(anthnetwork)$name=lookup_users(V(anthnetwork)$name)$screen_name
+plot(anthnetwork,edge.width=network$x) #use the som of interaction to setup width of edges
+```
+
+
+### Hamilton dataset
+
+Another interesting dataset is available [here](https://securingdemocracy.gmfus.org/the-methodology-of-the-hamilton-68-dashboard/). Among other things it gives access to a list of twitter users that we simplified and you can download [here](data/hamilton2.0.csv).
+Using that we can try to slighlty modify our code to generate another network:
+
+```{r,message=F,eval=F}
+hamiltonusers=read.csv("data/hamilton2.0.csv")[1:11,1]
+hamiltonusers_uid=lookup_users(as_screenname(hamiltonusers))$user_id
+
+hamilton_followers=lapply(hamiltonusers_uid,function(u)
+                     {
+                         Sys.sleep(2) 
+                         get_followers(u)
+                     })
+hamilton_fav=lapply(hamiltonusers_uid,function(u)
+                     {
+                         Sys.sleep(2) 
+                         get_favorites(u)
+                     })
+names(hamilton_fav)=hamiltonusers_uid
+names(hamilton_followers)=hamiltonusers_uid
+
+edgelist_hamilton=c()
+for(i in hamiltonusers_uid){
+    for(j in hamiltonusers_uid[hamiltonusers_uid != i]){
+        j_fav= all_fav[[j]]
+        favs=sum(i == j_fav$user_id )
+        if(!is.na(favs) & favs>0){
+            edgelist_hamilton=rbind(edgelist_hamilton,c(j,i,favs)) #j liked one or more i's tweets
+        }
+        j_folwrs= hamilton_followers[[j]]
+        if(i %in% j_folwrs$user_id ){
+            edgelist_hamilton=rbind(edgelist_hamilton,c(i,j,1)) #i is following j
+
+        }
+    }
+    #as we don't have a list of actual "tweets" by those users we can only look at who follows and likes who
+}
+```
+
+
+
+Now that you have various dataset you can use them to redo all analyse we did for the zachary karate club
+
+
+
