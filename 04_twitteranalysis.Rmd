@@ -491,43 +491,36 @@ But before being able to use this package to play with twitter a couple of thing
 ### Creating a Twitter App
 
 - To create a Twitter app, you will first need to apply for a developer account. To do so you can go to: [developer.twitter.com/en/apply-for-access](https://developer.twitter.com/en/apply-for-access).
-   - You will be asked to choose an account type, choose a student
-   <p align="center"><img src="images/apply-dev-1.png" alt="apply-dev-1"></p>
-   - Be carefull that you will need a valid phone number to verify your account. Then choose a country and a name for your developper account and clic next
-   <p align="center"><img src="images/apply-dev-2.png" alt="apply-dev-2"></p>
-   - You will then need to justify why you need your account for. "For the class "Big Data for Social Scientist, at the University of Tennessee Knoxville, we want to create an app to interact with the twitter API.  This will allow us  to generate and explore a simple data set, and learn about methods to do so with R."
-   <p align="center"><img src="images/apply-dev-3.png" alt="apply-dev-3"></p>
-   - You can then uncheck allspecifics and set them has "NO" as below and clic next.
-   <p align="center"><img src="images/apply-dev-4.png" alt="apply-dev-4"></p>
-   - Verify the information and you and validaidates by clicking on `Looks good!`.
-   - Tick the box to accept the Developer Agreement and click on `Submit Application`.
-   <p align="center"><img src="images/apply-dev-5.png" alt="apply-dev-4"></p>
-   - You will be asked to confirm your email once you have done so you should be able to create a an app.
+    - You will be asked to choose an account type, choose `Student` 
+    <p align="center"><img src="images/apply-dev-1.png" alt="apply-dev-1"></p>
+    - Be carefull, you will need a valid phone number to verify your account. Then choose a country and a name for your developper account and clic next
+    <p align="center"><img src="images/apply-dev-2.png" alt="apply-dev-2"></p>
+    - You will have to justify why you need your account for. You can use this text:
+     >"For the class "Big Data for Social Scientist, at the University of Tennessee Knoxville, we want to create an app to interact with the twitter API.  This will allow us  to generate and explore a simple data set, and learn about methods to do so with R."
+
+    <p align="center"><img src="images/apply-dev-3.png" alt="apply-dev-3"></p>
+
+    - You can then uncheck allspecifics and set them has "NO" as below and clic next.
+    <p align="center"><img src="images/apply-dev-4.png" alt="apply-dev-4"></p>
+    - Verify the information and you and validaidates by clicking on `Looks good!`.
+    - Tick the box to accept the Developer Agreement and click on `Submit Application`.
+    <p align="center"><img src="images/apply-dev-5.png" alt="apply-dev-4"></p>
+    - You will be asked to confirm your email once you have done so you should be able to create a an app.
+
 - Once you have acquired a developer account, navigate to [developer.twitter.com/en/apps](https://developer.twitter.com/en/apps/), click the blue button that says, `Create a New App`, and then complete the form with the following fields:
-   - `App Name`: What your app will be called
-   - `Application Description`: How your app will be described to its users
-   <p align="center"><img src="images/create-app-1.png" alt="create-app-1"></p>
-   - `Website URLs`: Website associated with app–I recommend using the URL to your Twitter profile
-   <p align="center"><img src="images/create-app-2.png" alt="create-app-2"></p>
-   - `Tell us how this app will be used`: you can copy past the text you use previously 
-   <p align="center"><img src="images/create-app-3.png" alt="create-app-3"></p>
-- When you've completed the required form fields, click the blue `Create` button at the bottom
+    - `App Name`: What your app will be called
+    - `Application Description`: How your app will be described to its users
+    <p align="center"><img src="images/create-app-1.png" alt="create-app-1"></p>
+    - `Website URLs`: Website associated with app–I recommend using the URL to your Twitter profile
+    <p align="center"><img src="images/create-app-2.png" alt="create-app-2"></p>
+    - `Tell us how this app will be used`: you can copy past the text you use previously 
+    <p align="center"><img src="images/create-app-3.png" alt="create-app-3"></p>
+    - When you've completed the required form fields, click the blue `Create` button at the bottom
 - Read through and indicate whether you accept the developer terms
    <p align="center"><img src="images/create-app-4.png" alt="create-app-4"></p>
 - And you're done!
    <p align="center"><img src="images/create-app-5.png" alt="create-app-5"></p>
 
-
-
-
-```{r,eval=F}
-library(twitteR)
-setup_twitter_oauth(getOption("twitter_consumer_key"), getOption("twitter_consumer_secret"),
-getOption("twitter_access_token"), getOption("twitter_access_token_secret")
-## We can request only 3200 tweets at a time
-trump_tweets <- userTimeline("realDonaldTrump", n = 3200)
-trump_tweets_df <- tbl_df(map_df(trump_tweets, as.data.frame))
-```
 
 ### Authorization 
 
@@ -569,9 +562,9 @@ setup_twitter_oauth(consumer_key,
                     access_secret)
 ```
 
-With all this you should be able to interact with twitter directly from R and redo some of the analysis we did before, shuch the  one in [SENTIMENT] with your own data. Let's try it account.
+With all this you should be able to interact with twitter directly from R and redo some of the analysis we did before, shuch the  one in the section [Sentiments][SENTIMENTS] with your own data. Let's try it.
 
-#### Sentiment reboot
+### Get Data and play with it (sentiment rebooted)
 
 1. We needed to get some tweets:
 
@@ -580,26 +573,24 @@ my_tweets <- userTimeline("SimonCarrignon", n = 3200,includeRts=FALSE) #note tha
 ```
 
 ```{r,echo=F}
-load("data/my_tweet.bin")
+load(file="data/my_tweet.bin")
 ```
 
-To do the sentiments analysis as we did before we have to transform the data as we used `data.frame`, `twitteR` allows us to do this by using `twListToDF`:
-
+2. To do the sentiments analysis as we did before, we have to format the data as a data frame.  `twitteR` allows us to do this by using `twListToDF`:
 ```{r}
 my_tweets <- twListToDF(my_tweets)
 ```
-
-Nonetheless the field of the data frame are not be exactly the same that the one we used before:
+ But we are not done yet as the fields of the data frame generated by `twitteR` are not the same that the one we used before:
 
 ```{r,eval=F}
 head(my_tweets)
 ```
 
 ```{r,echo=F}
-knitr::kable(head(my_tweets))
+knitr::kable(head(my_tweets[1:2,]))
 ```
 
-While previous data: 
+While the previous dataset we were using looks like: 
 
 ```{r,eval=F}
 head(tweets)
@@ -620,17 +611,20 @@ Now our new dataset should look simpler:
 ```{r,eval=F}
 head(tweets_dated)
 ```
-
 ```{r,echo=F}
-knitr::kable(head(tweets_dated))
+
+knitr::kable(head(tweets_dated[1:2,]))
+
 ```
-We can apply the various function we applied in section [PARSING]
+
+
+Now we have transformed our data we can apply the various function we applied in [The previous section](#parsing) to clean the text:
 
 ```{r}
 replace_reg <- "https://t.co/[A-Za-z\\d]+|http://[A-Za-z\\d]+|&amp;|&lt;|&gt;|RT|https"
 unnest_reg <- "([^A-Za-z_\\d#@']|'(?![A-Za-z_\\d#@]))"
 
-tidy_tweets1 <- tweets_dated %>% filter(!str_detect(Tweet, "^RT")) %>% 
+tidy_tweets1 <- tweets_dated %>% filter(!str_detect(Tweet, "^RT")) %>%  #note that this first filter should be useless as we already take out all retweet
     mutate(Tweet = str_replace_all(Tweet, replace_reg, ""))
 tidy_tweets <- tidy_tweets1 %>% unnest_tokens(word, Tweet, token = "regex", pattern = unnest_reg) %>%
     filter(!word %in% stop_words$word, str_detect(word, "[a-z]"))
@@ -649,7 +643,7 @@ We can then redo the sentiment matrix we did before:
 
 ```{r}
 tweet_sentiment <- tidy_tweets %>% inner_join(nrc) %>% count(index = Date, sentiment) %>%
-spread(sentiment, n, fill = 0)
+    spread(sentiment, n, fill = 0)
 ```
 
 And we can start to play with visualisation as we did before: 
@@ -677,3 +671,35 @@ tweet_sentiment %>% ggplot(aes(x=as.Date(index), y=cumsum(positive-negative))) +
     geom_vline(xintercept = as.integer(as.Date("2019-11-11")), color = "red", lty = 2)
 ```
 
+Can wee compare it to another one?
+
+```{r,eval=F}
+dr_tweets <- userTimeline("damianjruck", n = 3200,includeRts=FALSE) #note that I don't include the retweets by using `includeRts=FALSE`
+
+```{r,echo=F}
+load(file="data/dr_tweets.bin")
+```
+```{r}
+tidy_tweets_dr <- twListToDF(dr_tweets) %>%
+    mutate(Date = created,Tweet=text,Twitter_Name=screenName) %>% 
+    select(Twitter_Name,Date,Tweet) %>% 
+    filter(!str_detect(Tweet, "^RT")) %>% #note that this first filter should be useless as we already take out all retweet
+    mutate(Tweet = str_replace_all(Tweet, replace_reg, "")) %>% 
+    unnest_tokens(word, Tweet, token = "regex", pattern = unnest_reg) %>%
+    filter(!word %in% stop_words$word, str_detect(word, "[a-z]"))
+```
+
+Now we have the list of words tweets by Damian we can have the associated sentiment
+
+
+```{r}
+tweet_sentiment_dr <- tidy_tweets_dr %>% inner_join(nrc) %>% count(index = Date, sentiment) %>%
+    spread(sentiment, n, fill = 0)
+```
+
+and add it to the previous plot:
+
+```{r}
+ggplot(tweet_sentiment,aes(x=as.Date(index), y=cumsum(positive-negative))) + geom_line()  +
+    geom_line(data = tweet_sentiment_dr, colour = "red")
+```
