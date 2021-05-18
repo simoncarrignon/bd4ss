@@ -10,6 +10,9 @@ output:
         after: |
           <li><a href="https://framagit.org/sc/bd4ss/">
           source</a></li>
+
+    nature:
+      beforeInit: "https://platform.twitter.com/widgets.js"
 documentclass: book
 biblio-style: apalike
 link-citations: yes

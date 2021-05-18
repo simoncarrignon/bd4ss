@@ -23,6 +23,6 @@ install.packages('xaringan')
 compile:
 
 ```r
-rmardown::render("05_network.Rmd")
+rmarkdown::render("_network.Rmd")
 ```
 

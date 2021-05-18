@@ -313,7 +313,7 @@ hist(deg, breaks=1:vcount(zach)-1, main="Histogram of node degree: Zach")
 Community detection based on edge betweenness: High-betweenness edges are removed sequentially (recalculating at each step) and the best partitioning of the network is selected.
 
 ```{r}
- ceb <- cluster_edge_betweenness(anthnetwork)
+ ceb <- cluster_edge_betweenness(zach)
  dendPlot(ceb, mode="hclust")
 ```
 
@@ -321,7 +321,7 @@ Community detection based on edge betweenness: High-betweenness edges are remove
 Visualize results:
 
 ```{r}
-plot(ceb,anthnetwork)
+plot(ceb,zach)
 ```
 
 
@@ -498,9 +498,9 @@ network$x=network$x
 
 
 ```{r fig:net,fig.show="hide"}
-anthnetwork=graph.data.frame(network,directed=F)
+anthnetwork=graph.data.frame(network)
 V(anthnetwork)$name = 1:length(V(anthnetwork)) #change ID of nodes
-plot(ceb,anthnetwork,edge.width=network$x,layout=layout.fruchterman.reingold) #use the sum of interaction to setup width of edges
+plot(anthnetwork,edge.width=network$x) #use the sum of interaction to setup width of edges
 ```
 
 
